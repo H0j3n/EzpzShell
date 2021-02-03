@@ -21,10 +21,31 @@ python3 ezpzShell.py tun0 9001 py
 
 # Reverse Shell Available
 
-py,py3,bash,c,nc,php,perl,ruby,haskell,powershell,nodejs,awk,ncat,exe,ssti,cgi-bin,jenkins,tar-priv,pickle,java,lua
+* py,
+* py3
+* bash
+* c
+* nc
+* php
+* perl
+* ruby
+* haskell
+* powershell
+* nodejs
+* awk
+* ncat
+* exe
+* ssti
+* cgi-bin
+* jenkins
+* tar-priv
+* pickle
+* java
+* lua
 
 # References
 
 [1] http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+
 [2] https://highon.coffee/blog/reverse-shell-cheat-sheet/
 
