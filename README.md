@@ -2,8 +2,6 @@
 
 Collection Of Reverse Shell that can easily generate using Python3.
 
-# Disclaimer
-
 
 # How to use?
 
@@ -18,6 +16,10 @@ Or just specify the interface that you want to use.
 ```python
 python3 ezpzShell.py tun0 9001 py
 ```
+
+# Additional Information
+
+If you want to add your reverse shell just customize `shell.txt` and `ezpzShell.py`
 
 # Reverse Shell Available
 
