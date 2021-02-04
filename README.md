@@ -1,4 +1,4 @@
-![](https://www.youtube.com/watch?v=XxHqXwH7QkU)
+![](https://github.com/H0j3n/EzpzShell/blob/main/demo.gif)
 
 # What is EzpzShell?
 
