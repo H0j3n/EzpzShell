@@ -1,4 +1,4 @@
-![](https://www.youtube.com/watch?v=XxHqXwH7QkU&feature=youtu.be)
+![](https://www.youtube.com/watch?v=XxHqXwH7QkU)
 
 # What is EzpzShell?
 
