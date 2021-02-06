@@ -2,10 +2,12 @@
 
 # What is EzpzShell?
 
-Collection Of Reverse Shell that can easily generate using Python3.
+Collection Of Reverse Shell that can easily generate using Python3 and Golang.
 
 
 # How to use?
+
+## Python
 
 Specify the IP, Port and the options that are available.
 
@@ -19,9 +21,25 @@ Or just specify the interface that you want to use.
 python3 ezpzShell.py tun0 9001 py
 ```
 
+## Golang
+
+Build it first and specify the IP, Port and the options that are available.
+
+```go
+go build
+EzpzShell 10.10.10.10 9001 py
+```
+
+Or just specify the interface that you want to use.
+
+```go
+go build
+EzpzShell tun0 9001 py
+```
+
 # Additional Information
 
-If you want to add your reverse shell just customize `shell.txt` and `ezpzShell.py`
+If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py` or `ezpzShell.go`
 
 # Reverse Shell Available
 
@@ -43,17 +61,18 @@ If you want to add your reverse shell just customize `shell.txt` and `ezpzShell.
 * cgi-bin
 * jenkins
 * tar-priv
-* pickle
+* pickle (not supported in Go)
 * java
 * lua
 
 # Todo
 
-* Implement Go
 
 # References
 
 [1] http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
 
 [2] https://highon.coffee/blog/reverse-shell-cheat-sheet/
+
+[3] https://gist.github.com/Robleh/28234d9fe40e9baa1787396c7ad54350
 
