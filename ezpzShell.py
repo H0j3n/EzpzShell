@@ -32,7 +32,7 @@ def header():
 
 def load_shell():
 	listShell = open("/opt/OtherTools/EazyH0j3n/EzpzShell/shell.txt").read()
-	for counter,i in enumerate(str(listShell).split("INDEX")[1:]):
+	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
 		for j in i.split("#EXAMPLE")[1:]:
 			payload[list(payload.keys())[counter]].append(j)
 			
@@ -64,9 +64,9 @@ payload = {
 	"ncat":[],
 	"exe":[],
 	"ssti":[],
-	"cgi-bin":[],
+	"cgibin":[],
 	"jenkins":[],
-	"tar-priv":[],
+	"tarpriv":[],
 	"pickle":[],
 	"java":[],
 	"lua":[]
