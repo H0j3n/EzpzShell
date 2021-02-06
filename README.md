@@ -47,6 +47,10 @@ If you want to add your reverse shell just customize `shell.txt` and `ezpzShell.
 * java
 * lua
 
+# Todo
+
+* Implement Go
+
 # References
 
 [1] http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
