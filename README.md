@@ -43,7 +43,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
 # Reverse Shell Available
 
-* py,
+* py
 * py3
 * bash
 * c
@@ -54,6 +54,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * haskell
 * powershell
 * nodejs
+	- Add Deserialization RCE (Only in Python)
 * awk
 * ncat
 * exe
@@ -67,6 +68,8 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
 # Todo
 
+- Add Deserialization Node-js in Golang
+
 
 # References
 
@@ -75,4 +78,6 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 [2] https://highon.coffee/blog/reverse-shell-cheat-sheet/
 
 [3] https://gist.github.com/Robleh/28234d9fe40e9baa1787396c7ad54350
+
+[4] https://github.com/hoainam1989/training-application-security/blob/master/shell/node_shell.py
 
