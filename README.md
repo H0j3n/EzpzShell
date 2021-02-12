@@ -7,6 +7,8 @@ Collection Of Reverse Shell that can easily generate using Python3 and Golang.
 
 # How to use?
 
+Please change the file path to `shell.txt` inside the code before doing the next step!
+
 ## Python
 
 Specify the IP, Port and the options that are available.
