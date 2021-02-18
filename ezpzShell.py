@@ -75,7 +75,8 @@ payload = {
 	"tarpriv":[],
 	"pickle":[],
 	"java":[],
-	"lua":[]
+	"lua":[],
+	"asp": []
 }
 
 if __name__ == "__main__":

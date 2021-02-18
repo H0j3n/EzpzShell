@@ -56,7 +56,6 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * haskell
 * powershell
 * nodejs
-	- Add Deserialization RCE (Only in Python)
 * awk
 * ncat
 * exe
@@ -67,11 +66,9 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * pickle (not supported in Go)
 * java
 * lua
+* aspx/asp
 
 # Todo
-
-- Add Deserialization Node-js in Golang
-
 
 # References
 
@@ -83,3 +80,4 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
 [4] https://github.com/hoainam1989/training-application-security/blob/master/shell/node_shell.py
 
+[55] https://github.com/borjmz/aspx-reverse-shell

