@@ -66,7 +66,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * pickle (not supported in Go)
 * java
 * lua
-* aspx/asp
+* asp
 
 # Todo
 
