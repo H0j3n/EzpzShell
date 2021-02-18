@@ -4,6 +4,7 @@
 
 Collection Of Reverse Shell that can easily generate using Python3 and Golang.
 
+**_Disclaimer: Do not use this script for illegal use. Any action you take upon the information on this repo is strictly at your own risk**
 
 # How to use?
 
