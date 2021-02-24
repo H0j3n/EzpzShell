@@ -621,11 +621,13 @@ chmod 777 shell.sh
 #EXAMPLE
 
 Usage : java shell.java
+Usage : javac shell.java
+Usage : jar -cf shell.jar shell.class
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class testprog {
+public class shell {
     public static void main(String args[]) {
         String s;
         Process p;
@@ -639,10 +641,14 @@ public class testprog {
 
 #EXAMPLE
 
+Usage : java shell.java
+Usage : javac shell.java
+Usage : jar -cf shell.jar shell.class
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class testprog {
+public class shell {
     public static void main(String args[]) {
         String s;
         Process p;
@@ -657,11 +663,13 @@ public class testprog {
 #EXAMPLE
 
 Usage : java shell.java
+Usage : javac shell.java
+Usage : jar -cf shell.jar shell.class
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class testprog {
+public class shell {
     public static void main(String args[]) {
         String s;
         Process p;
