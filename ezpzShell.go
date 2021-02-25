@@ -47,6 +47,7 @@ type payload struct {
 	pickle string
 	java string
 	lua string
+	xxe string
 }
 
 
@@ -119,6 +120,8 @@ func loadShell(mapPayload map[string][]string, sliceData []string) {
 			mapPayload["lua"] = append(mapPayload["lua"],data)
 		}else if i == 21{
 			mapPayload["asp"] = append(mapPayload["asp"],data)
+		}else if i == 22{
+			mapPayload["xxe"] = append(mapPayload["xxe"],data)
 		}
 	}
 	return
@@ -170,7 +173,7 @@ func main(){
 	}
 	mapPayload := map[string][]string{}
 	//FilePath
-	filename := "/opt/OtherTools/H0j3n/EzpzShell/shell.txt"
+	filename := "/opt/Others/EzpzShell/shell.txt"
 	//Regex For Ip Address
 	re := regexp.MustCompile(`(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}`)
 	
@@ -207,7 +210,8 @@ func main(){
 	for i,data := range strings.Split(string(mapPayload[options][0]), "#EXAMPLE")[1:]{
 		fmt.Print("\n\n",string(colorCyan),"Example ",i+1,string(colorReset))
 		if strings.Contains(data, "{BASE64}"){
-			fmt.Print("\n",strings.TrimSpace(strings.Replace(data,"{BASE64}",base64gen(ip,port),1)))
+			fmt.Print("\n",strings.TrimSpace(strings.Replace(strings.Replace(strings.Replace(data,"{BASE64}",base64gen(ip,port),1),"{IP}",ip,1),"{PORT}",port,1)))
+			
 		}else if strings.Contains(data, "{PICKLE}"){
 			fmt.Println("\nNot at the moment please use python version!")
 		}else if strings.Contains(data, "{NODEJS_DESERIALIZATION}"){

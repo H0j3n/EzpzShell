@@ -76,7 +76,8 @@ payload = {
 	"pickle":[],
 	"java":[],
 	"lua":[],
-	"asp": []
+	"asp": [],
+	"xxe": []
 }
 
 if __name__ == "__main__":
@@ -101,7 +102,7 @@ if __name__ == "__main__":
 		print(f"\n{colors.GREEN}Example {counter+1}{colors.RESET}\n")
 		if "{BASE64}" in j:
 			temp = base64gen(ip,port)
-			print(j.strip().replace("{BASE64}",temp.decode("ascii")))
+			print(j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
 		elif "{PICKLE}" in j:
 			temp = pickle_rce(ip,port)
 			print(j.strip().replace("{PICKLE}",temp.decode("ascii")))

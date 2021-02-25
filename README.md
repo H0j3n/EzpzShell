@@ -68,6 +68,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * java
 * lua
 * asp
+* xxe
 
 # Todo
 
