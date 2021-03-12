@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 #coding=utf-8
 
+######################################################################
+#Script Name	: EzpzShell
+#Description	: Collection Of Reverse Shell that can easily generate
+#Author       	: H0j3n
+#Twitter        : @h0j3n
+#Github Link    : https://github.com/H0j3n/EzpzShell
+######################################################################
+
 import sys,re,os,base64,pickle
 import netifaces as ni
 from netifaces import AF_INET, AF_INET6, AF_LINK, AF_PACKET, AF_BRIDGE
