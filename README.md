@@ -69,6 +69,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * lua
 * asp
 * xxe
+* jsp
 
 # Todo
 
@@ -82,4 +83,11 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
 [4] https://github.com/hoainam1989/training-application-security/blob/master/shell/node_shell.py
 
-[55] https://github.com/borjmz/aspx-reverse-shell
+[5] https://github.com/borjmz/aspx-reverse-shell
+
+[6] https://github.com/antonioCoco/ConPtyShell
+
+[7] https://github.com/0x03f3/php-emoji-reverse-shell
+
+[8] https://github.com/juju/utils/blob/master/shell/powershell.go
+

