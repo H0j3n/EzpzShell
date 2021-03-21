@@ -1,0 +1,1 @@
+{"rustc":6339714466149818003,"features":"[]","target":5795484431399795990,"profile":4339006351771724982,"path":14928528758842480908,"deps":[[13316842695519270501,"build_script_build",false,8902062943459506086]],"local":[{"CheckDepInfo":{"dep_info":"release/.fingerprint/libdbus-sys-c81cc91128ec6bb5/dep-lib-libdbus-sys"}}],"rustflags":[],"metadata":10177712897614594260,"config":0}

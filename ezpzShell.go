@@ -2,8 +2,8 @@
 //Script Name	: EzpzShell
 //Description	: Collection Of Reverse Shell that can easily generate
 //Author       	: H0j3n
-//Twitter        : @h0j3n
-//Github Link    : https://github.com/H0j3n/EzpzShell
+//Twitter       : @h0j3n
+//Github Link   : https://github.com/H0j3n/EzpzShell
 //////////////////////////////////////////////////////////////////////
 
 

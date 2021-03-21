@@ -160,7 +160,7 @@ if __name__ == "__main__":
 			
 		else:
 			print(j.strip().replace("{IP}",ip).replace("{PORT}",port))
-	print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {ip}:{port}\n")
+	print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {port}\n")
 	os.system('nc -lvnp '+ str(port))
 	print(colors.RESET)
 

@@ -2,13 +2,21 @@
 
 # What is EzpzShell?
 
-Collection Of Reverse Shell that can easily generate using Python3 and Golang.
+Collection Of Reverse Shell that can easily generate using different Programming Language. Currently support in Python3 and Golang but will spend my time on others Programming Language. This repo is for my own educational purpose and I would like to refer back in future. Thank you!
 
 **_Disclaimer: Do not use this script for illegal use. Any action you take upon the information on this repo is strictly at your own risk**
 
 # How to use?
 
 Please change the file path to `shell.txt` inside the code before doing the next step!
+
+# Extra!!
+
+Please check https://github.com/0dayCTF/reverse-shell-generator which you can check https://www.revshells.com/ 
+
+```
+Hosted Reverse Shell generator with a ton of functionality. -- (Great for CTFs) and really nice UI!
+```
 
 ## Python
 
@@ -38,6 +46,25 @@ Or just specify the interface that you want to use.
 ```go
 go build
 EzpzShell tun0 9001 py
+```
+
+## Rust
+
+To install Rust you can check on this link and install the below dependencies needed
+
+* https://www.techrepublic.com/article/how-to-install-rust-on-linux/
+
+```
+* sudo apt install libdbus-glib-1-dev
+```
+
+To run in rust way you can use this command
+
+```rs
+cd rust
+cargo build --release
+
+* The binary will located in `rust/target/release`
 ```
 
 # Additional Information
@@ -73,6 +100,9 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
 # Todo
 
+* Trying to develop in Rust while learning it.
+* Base64 in rust
+
 # References
 
 [1] http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
@@ -91,3 +121,12 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
 [8] https://github.com/juju/utils/blob/master/shell/powershell.go
 
+[9] https://github.com/LukeDSchenk/rust-backdoors
+
+[10] https://github.com/he4d/networkmanager-rs
+
+[11] https://github.com/mabels/ipaddress
+
+[12] https://rust-lang-nursery.github.io/rust-cookbook/file/read-write.html
+
+[13] https://stackoverflow.com/questions/61297668/how-to-interact-with-a-reverse-shell-in-rust
