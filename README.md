@@ -48,7 +48,7 @@ go build
 EzpzShell tun0 9001 py
 ```
 
-## Rust
+## Rust (Still In Progress)
 
 To install Rust you can check on this link and install the below dependencies needed
 
