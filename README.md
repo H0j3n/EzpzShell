@@ -69,7 +69,7 @@ cargo build --release
 
 # Additional Information
 
-If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py` or `ezpzShell.go`
+If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py` , `ezpzShell.go` or `main.rs`
 
 # Reverse Shell Available
 
