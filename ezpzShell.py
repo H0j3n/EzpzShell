@@ -103,7 +103,7 @@ payload = {
 	"ruby":[],
 	"haskell":[],
 	"powershell":[],
-	"nodejs":[],
+	"node":[],
 	"awk":[],
 	"ncat":[],
 	"exe":[],
@@ -116,7 +116,8 @@ payload = {
 	"lua":[],
 	"asp": [],
 	"xxe": [],
-	"jsp":[]
+	"jsp":[],
+	"c#":[]
 }
 
 if __name__ == "__main__":

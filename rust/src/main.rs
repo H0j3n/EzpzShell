@@ -128,7 +128,7 @@ fn main() -> Result<(), Error>{
 	"ruby"=> cmpIndex=7,
 	"haskell"=> cmpIndex=8,
 	"powershell"=> cmpIndex=9,
-	"nodejs"=> cmpIndex=10,
+	"node"=> cmpIndex=10,
 	"awk"=> cmpIndex=11,
 	"ncat"=> cmpIndex=12,
 	"exe"=> cmpIndex=13,
@@ -142,6 +142,7 @@ fn main() -> Result<(), Error>{
 	"asp"=> cmpIndex=21,
 	"xxe"=> cmpIndex=22,
 	"jsp"=> cmpIndex=23,
+	"c#"=> cmpIndex=24,
     	_ => cmpIndex=-1
     }
     //Split By #INDEX

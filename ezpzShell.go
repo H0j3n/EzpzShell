@@ -76,7 +76,7 @@ func header(){
 `
 	fmt.Println(header)
 	fmt.Print(string(colorCyan),"[Payload Available]",string(colorReset))
-	fmt.Print("\npy,py3,bash,c,nc,php,perl,ruby,haskell,powershell,nodejs,awk,ncat,exe,ssti,cgibin,jenkins,tarpriv,java,lua,asp,xxe,jsp")
+	fmt.Print("\npy,py3,bash,c,nc,php,perl,ruby,haskell,powershell,node,awk,ncat,exe,ssti,cgibin,jenkins,tarpriv,java,lua,asp,xxe,jsp,c#")
 	
 	fmt.Print("\n\n",string(colorCyan),"[Usage]",string(colorReset),"\n")
 	fmt.Print(string(colorOrange),"ezpzShell 10.10.10.10 9001 py",string(colorReset),"\n")
@@ -107,7 +107,7 @@ func loadShell(mapPayload map[string][]string, sliceData []string) {
 		}else if i == 9{
 			mapPayload["powershell"] = append(mapPayload["powershell"],data)
 		}else if i == 10{
-			mapPayload["nodejs"] = append(mapPayload["nodejs"],data)
+			mapPayload["node"] = append(mapPayload["nodejs"],data)
 		}else if i == 11{
 			mapPayload["awk"] = append(mapPayload["awk"],data)
 		}else if i == 12{
@@ -134,6 +134,8 @@ func loadShell(mapPayload map[string][]string, sliceData []string) {
 			mapPayload["xxe"] = append(mapPayload["xxe"],data)
 		}else if i == 23{
 			mapPayload["jsp"] = append(mapPayload["jsp"],data)
+		}else if i ==24{
+			mapPayload["c#"] = append(mapPayload["c#"],data)
 		}
 	}
 	return

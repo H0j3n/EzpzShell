@@ -83,7 +83,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * ruby
 * haskell
 * powershell
-* nodejs
+* node
 * awk
 * ncat
 * exe
@@ -97,6 +97,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * asp
 * xxe
 * jsp
+* c#
 
 # Todo
 
@@ -130,3 +131,5 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 [12] https://rust-lang-nursery.github.io/rust-cookbook/file/read-write.html
 
 [13] https://stackoverflow.com/questions/61297668/how-to-interact-with-a-reverse-shell-in-rust
+
+[14] https://www.puckiestyle.nl/c-simple-reverse-shell/
