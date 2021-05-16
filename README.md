@@ -141,3 +141,5 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 [16] https://staaldraad.github.io/post/2019-03-02-universal-rce-ruby-yaml-load/
 
 [17] https://www.exploit-db.com/docs/english/47655-yaml-deserialization-attack-in-python.pdf?utm_source=dlvr.it&utm_medium=twitter
+
+[18] https://github.com/j0lt-github/python-deserialization-attack-payload-generator
