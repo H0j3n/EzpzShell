@@ -2,9 +2,9 @@
 
 # What is EzpzShell?
 
-Collection Of Reverse Shell that can easily generate using different Programming Language. Currently support in Python3 and Golang but will spend my time on others Programming Language. This repo is for my own educational purpose and I would like to refer back in future. Thank you!
+Collection Of Reverse Shell that can easily generate using different Programming Language. Currently only python3 is fully updated and others still in development. This repo is for my own educational purpose and I would like to refer back in future. Thank you!
 
-**_Disclaimer: Do not use this script for illegal use. Any action you take upon the information on this repo is strictly at your own risk**
+**Disclaimer: Do not use this script for illegal use. Any action you take upon the information on this repo is strictly at your own risk**
 
 # How to use?
 
@@ -12,7 +12,7 @@ Please change the file path to `shell.txt` inside the code before doing the next
 
 # Extra!!
 
-Please check https://github.com/0dayCTF/reverse-shell-generator which you can check https://www.revshells.com/ 
+Please check https://github.com/0dayCTF/reverse-shell-generator which you can check https://www.revshells.com/
 
 ```
 Hosted Reverse Shell generator with a ton of functionality. -- (Great for CTFs) and really nice UI!
@@ -32,7 +32,7 @@ Or just specify the interface that you want to use.
 python3 ezpzShell.py tun0 9001 py
 ```
 
-## Golang
+## Golang (Still In Progress)
 
 Build it first and specify the IP, Port and the options that are available.
 
@@ -98,11 +98,13 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * xxe
 * jsp
 * c#
+* xsl
+* yaml
 
 # Todo
 
 * Trying to develop in Rust while learning it.
-* Base64 in rust
+* Trying to develop in Golang while learning it.
 
 # References
 
@@ -133,3 +135,9 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 [13] https://stackoverflow.com/questions/61297668/how-to-interact-with-a-reverse-shell-in-rust
 
 [14] https://www.puckiestyle.nl/c-simple-reverse-shell/
+
+[15] https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSLT%20Injection
+
+[16] https://staaldraad.github.io/post/2019-03-02-universal-rce-ruby-yaml-load/
+
+[17] https://www.exploit-db.com/docs/english/47655-yaml-deserialization-attack-in-python.pdf?utm_source=dlvr.it&utm_medium=twitter
