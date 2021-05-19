@@ -125,6 +125,7 @@ payload = {
 	"c#":[],
     "xsl":[],
     "yaml":[],
+    "sql":[]
 }
 
 if __name__ == "__main__":
@@ -152,7 +153,7 @@ if __name__ == "__main__":
 			full_temp = j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip()
 			if "{YAML_PY}" in j:
 				only_b64 = full_temp.replace("{YAML_PY}","")
-				print(full_temp.replace("{YAML_PY}","Full Base64 Payload: "+base64.b64encode(only_b64.encode('ascii')).decode('ascii')))			
+				print(full_temp.replace("{YAML_PY}","Full Base64 Payload: "+base64.b64encode(only_b64.encode('ascii')).decode('ascii')))
 			else:
 				print(full_temp)
 		elif "{BASE64_FULL}" in j:
