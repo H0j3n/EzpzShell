@@ -125,7 +125,8 @@ payload = {
 	"c#":[],
     "xsl":[],
     "yaml":[],
-    "sql":[]
+    "sql":[],
+    "wordpress":[]
 }
 
 if __name__ == "__main__":
