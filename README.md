@@ -102,6 +102,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * yaml
 * sql
 * wordpress
+* json.net (Deserialization)
 
 # Todo
 
@@ -145,3 +146,5 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 [17] https://www.exploit-db.com/docs/english/47655-yaml-deserialization-attack-in-python.pdf?utm_source=dlvr.it&utm_medium=twitter
 
 [18] https://github.com/j0lt-github/python-deserialization-attack-payload-generator
+
+[19] https://github.com/pwntester/ysoserial.net
