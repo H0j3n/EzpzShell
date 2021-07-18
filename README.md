@@ -86,7 +86,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * node
 * awk
 * ncat
-* exe
+* msf_exe
 * ssti
 * cgi-bin
 * jenkins
@@ -103,6 +103,9 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * sql
 * wordpress
 * json.net (Deserialization)
+* msf_raw
+* msf_dll
+* msf_elf
 
 # Todo
 
