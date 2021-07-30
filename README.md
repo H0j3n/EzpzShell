@@ -106,6 +106,7 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * msf_raw
 * msf_dll
 * msf_elf
+* dag
 
 # Todo
 
