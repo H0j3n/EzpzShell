@@ -8,7 +8,15 @@ Collection Of Reverse Shell that can easily generate using different Programming
 
 # How to use?
 
-Please change the file path to `shell.txt` inside the code before doing the next step!
+You can add this alias in your .bashrc or .zshrc
+
+```bash
+# Alias
+alias listen="python3 /pathto/zpzShell/ezpzShell.py $1 $2 $3"
+
+# Usage
+listen 10.10.10.10 443 py3
+```
 
 # Extra!!
 
