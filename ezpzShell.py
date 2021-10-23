@@ -50,7 +50,7 @@ def header():
 {colors.RESET}{colors.ORANGE}\npython3 {sys.argv[0].split("/")[-1]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py{colors.RESET}''')
 
 def load_shell():
-	listShell = open(os.getcwd()+"/shell.txt").read()
+	listShell = open("/".join(str(sys.argv[0]).split("/")[:-1])+"/shell.txt").read()
 	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
 		for j in i.split("#EXAMPLE")[1:]:
 			payload[list(payload.keys())[counter]].append(j)
