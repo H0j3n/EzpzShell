@@ -12,7 +12,7 @@ You can add this alias in your .bashrc or .zshrc
 
 ```bash
 # Alias
-alias listen="python3 /pathto/zpzShell/ezpzShell.py $1 $2 $3"
+alias listen="python3 /pathto/EzpzShell/ezpzShell.py $1 $2 $3"
 
 # Usage
 listen 10.10.10.10 443 py3
