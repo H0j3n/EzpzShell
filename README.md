@@ -120,6 +120,9 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * msf_elf
 * dag
 * firebird
+* apt_confd
+* gdb_server
+* log4j
 
 # Todo
 
