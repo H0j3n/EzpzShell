@@ -123,6 +123,10 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * apt_confd
 * gdb_server
 * log4j
+* zabbix
+* mysql
+
+        -> CVE-2021-27928
 
 # Todo
 
