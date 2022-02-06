@@ -162,6 +162,9 @@ if __name__ == "__main__":
 			if "{YAML_PY}" in j:
 				only_b64 = full_temp.replace("{YAML_PY}","")
 				print(full_temp.replace("{YAML_PY}","Full Base64 Payload: "+base64.b64encode(only_b64.encode('ascii')).decode('ascii')))
+			elif "{BASE64_URLENCODE}" in j:
+				temp = urllib.parse.quote(base64gen_urlencode(ip,port).decode("ascii"))
+				print(full_temp.replace("{BASE64_URLENCODE}",temp).replace("{IP}",ip).replace("{PORT}",port).strip())
 			else:
 				print(full_temp)
 		elif "{BASE64_URLENCODE}" in j:
