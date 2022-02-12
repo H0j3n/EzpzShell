@@ -1,24 +1,27 @@
 ![](https://github.com/H0j3n/EzpzShell/blob/main/demo.gif)
 
-# What is EzpzShell?
+# What is EzpzShell ❓
 
-Collection Of Reverse Shell that can easily generate using different Programming Language. Currently only python3 is fully updated and others still in development. This repo is for my own educational purpose and I would like to refer back in future. Thank you!
+The idea is to collect all reverse shell methods that can be found on the internet to be used in CTF or if we found command execution vulnerability during penetration testing. Hopefully, this GitHub could be useful and resourceful. 
 
-**Disclaimer: Do not use this script for illegal use. Any action you take upon the information on this repo is strictly at your own risk**
+# Disclaimer ✅
 
-# How to use?
+Do not use this script for **illegal** use. Any action you take upon the information on this repo is strictly at your own risk
+
+# How to use ❓
 
 You can add this alias in your .bashrc or .zshrc
 
 ```bash
 # Alias
-alias listen="python3 /pathto/EzpzShell/ezpzShell.py $1 $2 $3"
+alias listen="python3 /pathto/EzpzShell/ezpzShell.py"
 
 # Usage
 listen 10.10.10.10 443 py3
+listen 10.10.10.10 443 py3 -payload (Only Payload)
 ```
 
-# Extra!!
+# Extra ‼️
 
 Please check https://github.com/0dayCTF/reverse-shell-generator which you can check https://www.revshells.com/
 
@@ -26,60 +29,31 @@ Please check https://github.com/0dayCTF/reverse-shell-generator which you can ch
 Hosted Reverse Shell generator with a ton of functionality. -- (Great for CTFs) and really nice UI!
 ```
 
-## Python
+## Python 🐍
 
 Specify the IP, Port and the options that are available.
 
 ```python
 python3 ezpzShell.py 10.10.10.10 9001 py
+
+python3 ezpzShell.py 10.10.10.10 9001 py -payload
 ```
 
 Or just specify the interface that you want to use.
 
 ```python
 python3 ezpzShell.py tun0 9001 py
-```
 
-## Golang (Still In Progress)
+python3 ezpzShell.py eth0 9001 py
 
-Build it first and specify the IP, Port and the options that are available.
-
-```go
-go build
-EzpzShell 10.10.10.10 9001 py
-```
-
-Or just specify the interface that you want to use.
-
-```go
-go build
-EzpzShell tun0 9001 py
-```
-
-## Rust (Still In Progress)
-
-To install Rust you can check on this link and install the below dependencies needed
-
-* https://www.techrepublic.com/article/how-to-install-rust-on-linux/
-
-```
-* sudo apt install libdbus-glib-1-dev
-```
-
-To run in rust way you can use this command
-
-```rs
-cd rust
-cargo build --release
-
-* The binary will located in `rust/target/release`
+python3 ezpzShell.py eth0 9001 py -payload
 ```
 
 # Additional Information
 
-If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py` , `ezpzShell.go` or `main.rs`
+If you want to add your reverse shell just customize `updates.yaml`
 
-# Reverse Shell Available
+# Reverse Shell Available ❇️
 
 * py
 * py3
@@ -96,6 +70,14 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 * ncat
 * msf_exe
 * ssti
+
+	-> Twig
+
+	-> Jinja/Flask
+
+	-> Tornado
+
+	-> PugJS
 * cgi-bin
 
 	-> Apache 2.4.49 (CVE-2021-41773)
@@ -128,11 +110,10 @@ If you want to add your reverse shell just customize `shell.txt` , `ezpzShell.py
 
         -> CVE-2021-27928
 
-# Todo
+# Todo ✍🏼
 
-* Trying to develop in Rust while learning it.
-* Trying to develop in Golang while learning it.
-
+[+] Update new reverse shell encountered
+ 
 # References
 
 [1] http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet

