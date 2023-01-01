@@ -1,0 +1,4 @@
+build/
+dist/
+.eggs/
+ezpzShell.egg-info/

