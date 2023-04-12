@@ -2,4 +2,5 @@ build/
 dist/
 .eggs/
 ezpzShell.egg-info/
-ezpzShell/__pycache__/
+ezpzShell/__pycache__
+ezpzShell/utils/__pycache__
