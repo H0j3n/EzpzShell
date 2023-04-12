@@ -2,5 +2,7 @@ build/
 dist/
 .eggs/
 ezpzShell.egg-info/
-ezpzShell/__pycache__/
-ezpzShell/utils/__pycache__/
+*.log
+*.pot
+*.pyc
+__pycache__
