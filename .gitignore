@@ -6,3 +6,4 @@ ezpzShell.egg-info/
 *.pot
 *.pyc
 __pycache__
+*cpython*
