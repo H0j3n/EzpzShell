@@ -109,6 +109,7 @@ If you want to add your reverse shell just customize `updates.yaml`
 * mysql
 
         -> CVE-2021-27928
+* lua
 
 # Todo ✍🏼
 
