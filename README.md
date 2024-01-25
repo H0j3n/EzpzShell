@@ -1,20 +1,20 @@
 ![](https://github.com/H0j3n/EzpzShell/blob/main/demo.gif)
 
-# What is EzpzShell ❓
+### What is EzpzShell ❓
 
 The idea is to collect all reverse shell methods that can be found on the internet to be used in CTF or if we found command execution vulnerability during penetration testing. Hopefully, this GitHub could be useful and resourceful. 
 
-# Disclaimer ✅
+### Disclaimer ✅
 
 Do not use this script for **illegal** use. Any action you take upon the information on this repo is strictly at your own risk
 
-# How to use ❓
-
-You can add this alias in your .bashrc or .zshrc
+### How to intall & use ❓
 
 ```bash
-# Alias
-alias listen="python3 /pathto/EzpzShell/ezpzShell.py"
+# Install
+git clone https://github.com/H0j3n/EzpzShell.git
+cd EzpzShell
+python3 setup.py install
 
 # Usage
 listen 10.10.10.10 443 py3
@@ -29,87 +29,78 @@ Please check https://github.com/0dayCTF/reverse-shell-generator which you can ch
 Hosted Reverse Shell generator with a ton of functionality. -- (Great for CTFs) and really nice UI!
 ```
 
-## Python 🐍
-
-Specify the IP, Port and the options that are available.
-
-```python
-python3 ezpzShell.py 10.10.10.10 9001 py
-
-python3 ezpzShell.py 10.10.10.10 9001 py -payload
-```
-
-Or just specify the interface that you want to use.
-
-```python
-python3 ezpzShell.py tun0 9001 py
-
-python3 ezpzShell.py eth0 9001 py
-
-python3 ezpzShell.py eth0 9001 py -payload
-```
-
 # Additional Information
 
-If you want to add your reverse shell just customize `updates.yaml`
+If you want to add your reverse shell just customize `ezpzShell/utils/update_yaml.py`
 
 # Reverse Shell Available ❇️
 
-* py
-* py3
-* bash
-* c
-* nc
-* php
-* perl
-* ruby
-* haskell
-* powershell
-* node
-* awk
-* ncat
-* msf_exe
-* ssti
+```cs
+  ______               _____ _          _ _
+ |  ____|             / ____| |        | | |
+ | |__   _____ __ ___| (___ | |__   ___| | |
+ |  __| |_  / '_ \_  /\___ \| '_ \ / _ \ | |
+ | |____ / /| |_) / / ____) | | | |  __/ | |
+ |______/___| .__/___|_____/|_| |_|\___|_|_|
+            | |
+            |_| by H0j3n
 
-	-> Twig
+-------- [ PAYLOAD AVAILABLE ] --------
 
-	-> Jinja/Flask
+[ansible] [apt_confd] [asp] [awk] [bash] [c] [c#] [cgibin] [dag] [firebird] 
+[gdb_server] [haskell] [java] [jenkins] [json.net] [jsp] [log4j] [lua] [msf_dll] [msf_elf] 
+[msf_exe] [msf_raw] [mysql] [nc] [ncat] [node] [perl] [php] [php_lfi] [pickle] 
+[powershell] [py] [py3] [ruby] [splunk_rce] [sql] [sqlite3] [ssti] [tarpriv] [tomcat] 
+[wordpress] [xsl] [xxe] [yaml] [zabbix] 
+```
 
-	-> Tornado
-
-	-> PugJS
-* cgi-bin
-
-	-> Apache 2.4.49 (CVE-2021-41773)
-	
-	-> Apache 2.4.50 (CVE-2021-42013)
-* jenkins
-* tar-priv
-* pickle 
-* java
-* lua
-* asp
-* xxe
-* jsp
-* c#
-* xsl
-* yaml
-* sql
-* wordpress
-* json.net (Deserialization)
-* msf_raw
-* msf_dll
-* msf_elf
-* dag
-* firebird
-* apt_confd
-* gdb_server
-* log4j
-* zabbix
-* mysql
-
-        -> CVE-2021-27928
-* lua
+| Payload |  Description |
+| ------ |  ---- |
+| ansible | |
+| apt_confd | |
+| asp | |
+| awk | |
+| bash | |
+| c | |
+| c# | |
+| cgibin | |
+| dag | |
+| firebird | |
+| gdb_server | |
+| haskell | |
+| java | |
+| jenkins | |
+| json.net | |
+| jsp | |
+| log4j | |
+| lua | |
+| msf_dll | |
+| msf_elf | |
+| msf_exe | |
+| msf_raw | |
+| mysql | |
+| nc | |
+| ncat | |
+| node | |
+| perl | |
+| php | |
+| php_lfi | |
+| pickle | |
+| powershell | |
+| py | |
+| py3 | |
+| ruby | |
+| sql | |
+| sqlite3 | |
+| ssti | |
+| tarpriv | |
+| tomcat | |
+| wordpress | |
+| xsl | |
+| xxe | |
+| yaml | |
+| zabbix | |
+| splunk_rce | [Splunk Enterprise 7.2.4 - Custom App Remote Command Execution](https://www.exploit-db.com/exploits/46487)|
 
 # Todo ✍🏼
 

